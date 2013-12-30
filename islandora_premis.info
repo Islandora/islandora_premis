@@ -1,0 +1,7 @@
+name = Islandora PREMIS
+description = "Provide a PREMIS datastream upon request."
+dependencies[] = islandora
+package = Islandora
+version = 7.x-dev
+core = 7.x
+php = 5.3
