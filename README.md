@@ -2,11 +2,17 @@
 
 ### Build Status
 
+[![Build Status](https://travis-ci.org/ruebot/islandora_premis.png?branch=7.x)](https://travis-ci.org/ruebot/islandora_premis)
+
 ### Summary
+
+Allows for the dissemination of PREMIS.
 
 ### Requirements
 
 ### Installation
+
+`cd $ISLANDORA_HOME/sites/all/modules && git clone https://github.com/ruebot/islandora_premis`
 
 ### Configuration
 
