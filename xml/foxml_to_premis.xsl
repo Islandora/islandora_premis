@@ -10,6 +10,11 @@
 <!-- Define a global parameter containing the Islandora object's PID. -->
 <xsl:param name = "pid" select="foxml:digitalObject/@PID" />
 
+<!-- Global parameters exported from out solution pack. -->
+<xsl:param name="premis_agent_name_organization" />
+<xsl:param name="premis_agent_identifier_organization" />
+<xsl:param name="premis_agent_type_organization" />
+
 <xsl:preserve-space elements="*" />
 
 <xsl:template match="foxml:digitalObject">
@@ -19,7 +24,19 @@
     in an Islandora object, and event entries documenting all fixity checks performed on versions of those datastreams.
     Note that a datastream version that has never had a fixity check performed on it will not be linked to any fixity
     check events.</xsl:comment>
-    
+
+<!--
+    <!-- Agents first. --> 
+    <agent>
+        <agentIdentifier>
+            <agentIdentifierType>repository code</agentIdentifierType>
+            <agentIdentifierValue><xsl:value-of select="$premis_agent_identifier_organization" /></agentIdentifierValue>
+        </agentIdentifier>
+        <agentName><xsl:value-of select="$premis_agent_name_organization" /></agentName>
+        <agentType><xsl:value-of select="$premis_agent_type_organization" /></agentType>
+    </agent>
+-->
+
     <!-- Objects first. --> 
     
     <xsl:comment>'Internal' eventIdentifierType values are comprised of Fedora datasteam ID plus ':' plus Fedora Audit Record ID.</xsl:comment>

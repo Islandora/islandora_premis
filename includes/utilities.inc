@@ -23,6 +23,9 @@ function islandora_premis_run_xsl_transform($info) {
   $input->loadXML($info['input']);
   $processor = new XSLTProcessor();
   $processor->importStylesheet($xsl);
+  $processor->setParameter('', 'premis_agent_name_organization', variable_get('islandora_premis_agent_name', 'Your Organization'));
+  $processor->setParameter('', 'premis_agent_identifier_organization', variable_get('islandora_premis_agent_identifier', 'some_unique_string'));
+  $processor->setParameter('', 'premis_agent_type_organization', variable_get('islandora_premis_agent_type', 'organization'));
   // XXX: Suppressing warnings regarding unregistered prefixes.
   return @$processor->transformToXML($input);
 }

@@ -34,11 +34,18 @@ function islandora_premis_admin_form(array $form, array &$form_state) {
     '#default_value' => variable_get('islandora_premis_agent_name', 'Your Organization'),
   );
 
+  $form['islandora_premis_agent_configuration']['islandora_premis_agent_identifier'] = array(
+    '#type' => 'textfield',
+    '#title' => t('agentIdentifier'),
+    '#description' => t('Sample: your_organization'),
+    '#default_value' => variable_get('islandora_premis_agent_identifier', 'some_unique_string'),
+  );
+
   $form['islandora_premis_agent_configuration']['islandora_premis_agent_type'] = array(
     '#type' => 'textfield',
     '#title' => t('agentType'),
     '#description' => t('Sample: organization'),
-    '#default_value' => variable_get('islandora_premis_agent_name', 'organization'),
+    '#default_value' => variable_get('islandora_premis_agent_type', 'organization'),
   );
 
   return system_settings_form($form);
