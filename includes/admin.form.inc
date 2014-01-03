@@ -30,8 +30,15 @@ function islandora_premis_admin_form(array $form, array &$form_state) {
   $form['islandora_premis_agent_configuration']['islandora_premis_agent_name'] = array(
     '#type' => 'textfield',
     '#title' => t('agentName'),
-    '#description' => t('Sample: York University Library.'),
+    '#description' => t('Sample: York University Library'),
     '#default_value' => variable_get('islandora_premis_agent_name', 'Your Organization'),
+  );
+
+  $form['islandora_premis_agent_configuration']['islandora_premis_agent_type'] = array(
+    '#type' => 'textfield',
+    '#title' => t('agentType'),
+    '#description' => t('Sample: organization'),
+    '#default_value' => variable_get('islandora_premis_agent_name', 'organization'),
   );
 
   return system_settings_form($form);
