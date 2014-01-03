@@ -79,7 +79,7 @@ function islandora_premis_view(AbstractObject $object) {
       '#markup' => l(t('Download PREMIS'), "islandora/object/{$object->id}/download_premis"),
     ),
     'premis' => array(
-      '#markup' => islandora_premis_transform_premis_to_html($object),
+      '#markup' => islandora_premis_transform_foxml_to_premis($object),
     ),
   );
 }
