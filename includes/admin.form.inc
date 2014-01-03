@@ -1,0 +1,38 @@
+<?php
+
+/**
+ * @file
+ * The admin form for the islandora premis module.
+ */
+
+/**
+ * Defines the admin settings form.
+ *
+ * @param array $form
+ *   The Drupal form definition.
+ * @param array $form_state
+ *   The Drupal form state.
+ *
+ * @return array
+ *   The Drupal form definition.
+ */
+function islandora_premis_admin_form(array $form, array &$form_state) {
+  module_load_include('inc', 'islandora', 'includes/utilities');
+  $get_default_value = function($name, $default) use(&$form_state) {
+    return isset($form_state['values'][$name]) ? $form_state['values'][$name] : variable_get($name, $default);
+  };
+
+  $form['islandora_premis_agent_configuration'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Agent configuration'),
+  );
+
+  $form['islandora_premis_agent_configuration']['islandora_premis_agent_name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('agentName'),
+    '#description' => t('Sample: York University Library.'),
+    '#default_value' => variable_get('islandora_premis_agent_name', 'Your Organization'),
+  );
+
+  return system_settings_form($form);
+}
