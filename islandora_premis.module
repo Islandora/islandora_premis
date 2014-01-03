@@ -29,6 +29,15 @@ function islandora_premis_menu() {
       'delivery callback' => 'islandora_premis_xml_download',
       'file' => 'includes/utilities.inc',
     ),
+    'admin/islandora/premis' => array(
+      'title' => 'PREMIS',
+      'description' => 'Configure Islandora PREMIS.',
+      'page callback' => 'drupal_get_form',
+      'access arguments' => array('administer site configuration'),
+      'page arguments' => array('islandora_premis_admin_form'),
+      'file' => 'includes/admin.form.inc',
+      'type' => MENU_NORMAL_ITEM,
+    ),
   );
 }
 
