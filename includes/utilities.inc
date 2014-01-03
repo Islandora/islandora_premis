@@ -85,7 +85,7 @@ function islandora_premis_view(AbstractObject $object) {
 }
 
 /**
- * Gets FOXML via tuque
+ * Gets FOXML via tuque.
  *
  * @pararm AbstractObject $object
  *   The object the FOXML belongs to
