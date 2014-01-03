@@ -58,9 +58,9 @@ function islandora_premis_transform_foxml_to_premis(AbstractObject $object) {
  * @return string
  *   The transformed HTML, as a string.
  */
-function islandora_premis_to_html(AbstractObject $object) {
+function islandora_premis_transform_premis_to_html(AbstractObject $object) {
   return islandora_premis_run_xsl_transform(array(
-    'input' => islandora_marcxml_transform_foxml_to_premis($object),
+    'input' => islandora_premis_transform_foxml_to_premis($object),
     'xsl' => drupal_get_path('module', 'islandora_premis') . '/xml/foxml-premis.xsl',
   ));
 }

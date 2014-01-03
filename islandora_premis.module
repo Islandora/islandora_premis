@@ -11,7 +11,7 @@
 function islandora_premis_menu() {
   return array(
     'islandora/object/%islandora_object/view_premis' => array(
-      'title' => 'MARCXML',
+      'title' => 'PREMIS',
       'type' => MENU_LOCAL_TASK,
       'page callback' => 'islandora_premis_view',
       'page arguments' => array(2),
@@ -20,7 +20,7 @@ function islandora_premis_menu() {
       'file' => 'includes/utilities.inc',
     ),
     'islandora/object/%islandora_object/download_premis' => array(
-      'title' => 'Download MARCXML',
+      'title' => 'Download PREMIS',
       'type' => MENU_CALLBACK,
       'page callback' => 'islandora_premis_transform_premis',
       'page arguments' => array(2),
@@ -61,7 +61,7 @@ function islandora_premis_xml_download($output) {
  *   otherwise.
  */
 function islandora_premis_access_callback($object) {
-  return is_object($object) && isset($object['MODS']) && islandora_datastream_access(ISLANDORA_VIEW_OBJECTS, $object['MODS']);
+  return is_object($object) && isset($object['MODS']) && islandora_datastream_access(FEDORA_VIEW_OBJECTS, $object['MODS']);
 }
 
 /**
