@@ -13,7 +13,7 @@
 <xsl:preserve-space elements="*" />
 
 <xsl:template match="foxml:digitalObject">
-    <premis xmlns="info:lc/xlmns/premis-v2" xsi:schemaLocation="info:lc/xlmns/premis-v2 http://www.loc.gov/standards/premis/v2/premis.xsd">
+    <premis xmlns="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis.xsd" version="2.2">
     
     <xsl:comment>PREMIS data for Islandora object <xsl:value-of select="$pid" />. Contains object entries for each Managed datastream
     in an Islandora object, and event entries documenting all fixity checks performed on versions of those datastreams.
@@ -29,12 +29,11 @@
         <xsl:for-each select="foxml:datastreamVersion">
             <xsl:variable name="content_location" select="foxml:contentLocation/@REF" />
             <xsl:variable name="datastream_id" select="@ID" />
-                <object>
+                <object xsi:type="file">
                 <objectIdentifier>
                     <objectIdentifierType>Fedora Commons datastreamVersion ID</objectIdentifierType>
                     <objectIdentifierValue><xsl:value-of select="@ID"/></objectIdentifierValue>
                 </objectIdentifier>
-                <objectCategory>file</objectCategory>
                 <objectCharacteristics>
                     <compositionLevel>0</compositionLevel>
                     <fixity>
@@ -49,7 +48,9 @@
                     </messageDigest>
                     </fixity>
                     <format>
-                        <formatName><xsl:value-of select="@MIMETYPE"/></formatName>
+			<formatDesignation>
+                        	<formatName><xsl:value-of select="@MIMETYPE"/></formatName>
+			</formatDesignation>
                     </format>
                 </objectCharacteristics>
                 <storage>
