@@ -84,13 +84,23 @@ function islandora_premis_view(AbstractObject $object) {
   );
 }
 
+/**
+ * Gets FOXML via tuque
+ *
+ * @pararm AbstractObject $object
+ *   The object the FOXML belongs to
+ *
+ * @return array
+ *   An array representing the foxml
+ */
 function islandora_premis_get_foxml(AbstractObject $object) {
   // Use the Tuque API-M to export the FOXML for the object.
   global $user;
   $fedora_url = variable_get('islandora_base_url', 'http://localhost:8080/fedora');
   $connection = islandora_get_tuque_connection($user, $fedora_url);
   $foxml = $connection->api->m->export($object->id,
-    array('format' => 'info:fedora/fedora-system:FOXML-1.1',
+    array(
+      'format' => 'info:fedora/fedora-system:FOXML-1.1',
       'context' => 'archive',
       'encoding' => 'UTF-8')
     );
