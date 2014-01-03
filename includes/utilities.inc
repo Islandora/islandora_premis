@@ -31,26 +31,24 @@ function islandora_premis_run_xsl_transform($info) {
  * Grabs FOXML the given object, and returns it transformed to PREMIS.
  *
  * @param AbstractObject $object
- *   A Fedora object containing a MODS datastream.
+ *   A Fedora object containing a FOXML datastream.
  *
  * @return string
  *   The transformed XML, as a string.
  */
 function islandora_premis_transform_foxml_to_premis(AbstractObject $object) {
-  if (!isset($object['FOXML'])) {
+  $foxml_str = islandora_premis_get_foxml($object);
+  if (!$foxml_str) {
     drupal_not_found();
   }
-  $mods_str = trim($object['FOXML']->content);
   return islandora_premis_run_xsl_transform(array(
-    'input' => $mods_str,
-    'xsl' => drupal_get_path('module', 'islandora_premis') . '/xml/foxml-to-premis.xsl',
+    'input' => $foxml_str,
+    'xsl' => drupal_get_path('module', 'islandora_premis') . '/xml/foxml_to_premis.xsl',
   ));
 }
 
 /**
  * Produce HTML representing PREMIS content.
- *
- * First, transforms MODS to PREMIS, and then PREMIS to HTML.
  *
  * @param AbstractObject $object
  *   A Fedora object containing a MODS datastream.
@@ -61,7 +59,7 @@ function islandora_premis_transform_foxml_to_premis(AbstractObject $object) {
 function islandora_premis_transform_premis_to_html(AbstractObject $object) {
   return islandora_premis_run_xsl_transform(array(
     'input' => islandora_premis_transform_foxml_to_premis($object),
-    'xsl' => drupal_get_path('module', 'islandora_premis') . '/xml/foxml-premis.xsl',
+    'xsl' => drupal_get_path('module', 'islandora_premis') . '/xml/foxml_to_premis.xsl',
   ));
 }
 
@@ -84,4 +82,23 @@ function islandora_premis_view(AbstractObject $object) {
       '#markup' => islandora_premis_transform_premis_to_html($object),
     ),
   );
+}
+
+function islandora_premis_get_foxml(AbstractObject $object) {
+  // Use the Tuque API-M to export the FOXML for the object.
+  global $user;
+  $fedora_url = variable_get('islandora_base_url', 'http://localhost:8080/fedora');
+  $connection = islandora_get_tuque_connection($user, $fedora_url);
+  $foxml = $connection->api->m->export($object->id,
+    array('format' => 'info:fedora/fedora-system:FOXML-1.1',
+      'context' => 'archive',
+      'encoding' => 'UTF-8')
+    );
+
+  if ($foxml) {
+    return $foxml;
+  }
+  else {
+    return FALSE;
+  }
 }
