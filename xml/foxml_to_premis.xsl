@@ -25,8 +25,8 @@
     Note that a datastream version that has never had a fixity check performed on it will not be linked to any fixity
     check events.</xsl:comment>
 
-<!--
     <!-- Agents first. --> 
+<!--
     <agent>
         <agentIdentifier>
             <agentIdentifierType>repository code</agentIdentifierType>
