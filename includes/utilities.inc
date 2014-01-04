@@ -63,7 +63,7 @@ function islandora_premis_transform_foxml_to_premis(AbstractObject $object) {
 function islandora_premis_transform_premis_to_html(AbstractObject $object) {
   return islandora_premis_run_xsl_transform(array(
     'input' => islandora_premis_transform_foxml_to_premis($object),
-    'xsl' => drupal_get_path('module', 'islandora_premis') . '/xml/foxml_to_premis.xsl',
+    'xsl' => drupal_get_path('module', 'islandora_premis') . '/xml/premis_to_html.xsl',
   ));
 }
 
@@ -83,7 +83,7 @@ function islandora_premis_view(AbstractObject $object) {
       '#markup' => l(t('Download PREMIS'), "islandora/object/{$object->id}/download_premis"),
     ),
     'premis' => array(
-      '#markup' => islandora_premis_transform_foxml_to_premis($object),
+      '#markup' => islandora_premis_transform_premis_to_html($object),
     ),
   );
 }
