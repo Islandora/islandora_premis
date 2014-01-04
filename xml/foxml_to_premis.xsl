@@ -1,5 +1,5 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:php="http://php.net/xsl" xsl:extension-element-prefixes="php"
+  xmlns:php="http://php.net/xsl"
   xmlns:foxml="info:fedora/fedora-system:def/foxml#" xmlns:audit="info:fedora/fedora-system:def/audit#"
   xmlns:fedora="info:fedora/fedora-system:def/relations-external#" xmlns:fedora-model="info:fedora/fedora-system:def/model#"
   xmlns:islandora="http://islandora.ca/ontology/relsext#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -42,7 +42,16 @@
                     <objectIdentifierValue><xsl:value-of select="@ID"/></objectIdentifierValue>
                 </objectIdentifier>
                 <objectCharacteristics>
-                    <compositionLevel>0</compositionLevel>
+                    <!-- added test for original content (compositionLevel=0) and derived content
+                        (compositionLevel=1) -->
+                    <xsl:choose>
+                        <xsl:when test="starts-with(@ID, 'OBJ') or starts-with(@ID, 'MODS')">
+                        <compositionLevel>0</compositionLevel>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <compositionLevel>1</compositionLevel>
+                    </xsl:otherwise>
+                    </xsl:choose>
                     <fixity>
                     <!-- Currently not working... -->
                     <xsl:comment>@todo: Get messageDigestAlgorithm and messageDigest working.</xsl:comment>
@@ -54,6 +63,7 @@
                         <xsl:value-of select="foxml:contentDigest/@DIGEST" />
                     </messageDigest>
                     </fixity>
+                    <size><xsl:value-of select="@SIZE"/></size>
                     <format>
 			<formatDesignation>
                         	<formatName><xsl:value-of select="@MIMETYPE"/></formatName>
