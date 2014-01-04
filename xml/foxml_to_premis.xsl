@@ -13,6 +13,7 @@
 <!-- Global parameters exported from out solution pack. -->
 <xsl:param name="premis_agent_name_organization" />
 <xsl:param name="premis_agent_identifier_organization" />
+<xsl:param name="premis_agent_identifier_type" />
 <xsl:param name="premis_agent_type_organization" />
 
 <xsl:preserve-space elements="*" />
@@ -25,17 +26,6 @@
     Note that a datastream version that has never had a fixity check performed on it will not be linked to any fixity
     check events.</xsl:comment>
 
-    <!-- Agents first. --> 
-<!--
-    <agent>
-        <agentIdentifier>
-            <agentIdentifierType>repository code</agentIdentifierType>
-            <agentIdentifierValue><xsl:value-of select="$premis_agent_identifier_organization" /></agentIdentifierValue>
-        </agentIdentifier>
-        <agentName><xsl:value-of select="$premis_agent_name_organization" /></agentName>
-        <agentType><xsl:value-of select="$premis_agent_type_organization" /></agentType>
-    </agent>
--->
 
     <!-- Objects first. --> 
     
@@ -130,6 +120,16 @@
                 </xsl:for-each>
        </xsl:for-each>  
     </xsl:for-each>
+
+    <!-- Then agents. --> 
+    <agent>
+        <agentIdentifier>
+            <agentIdentifierType><xsl:value-of select="$premis_agent_identifier_type" /></agentIdentifierType>
+            <agentIdentifierValue><xsl:value-of select="$premis_agent_identifier_organization" /></agentIdentifierValue>
+        </agentIdentifier>
+        <agentName><xsl:value-of select="$premis_agent_name_organization" /></agentName>
+        <agentType><xsl:value-of select="$premis_agent_type_organization" /></agentType>
+    </agent>
    
    </premis>
 </xsl:template>

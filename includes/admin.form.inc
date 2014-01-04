@@ -24,7 +24,7 @@ function islandora_premis_admin_form(array $form, array &$form_state) {
 
   $form['islandora_premis_agent_configuration'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Agent configuration'),
+    '#title' => t('Organization Agent configuration'),
   );
 
   $form['islandora_premis_agent_configuration']['islandora_premis_agent_name'] = array(
@@ -37,8 +37,16 @@ function islandora_premis_admin_form(array $form, array &$form_state) {
   $form['islandora_premis_agent_configuration']['islandora_premis_agent_identifier'] = array(
     '#type' => 'textfield',
     '#title' => t('agentIdentifier'),
-    '#description' => t('Sample: your_organization'),
-    '#default_value' => variable_get('islandora_premis_agent_identifier', 'some_unique_string'),
+    '#description' => t('Sample: YOU'),
+    '#default_value' => variable_get('islandora_premis_agent_identifier', 'Your_Organization'),
+  );
+
+  $form['islandora_premis_agent_configuration']['islandora_premis_agent_identifier_type'] = array(
+    '#type' => 'textfield',
+    '#title' => t('agentIdentifierType'),
+    '#description' => t('Sample: MARC Organization Codes'),
+    '#default_value' => variable_get('islandora_premis_agent_identifier_type', 'MARC Organization Codes'),
+    '#description' => t('See PREMIS 3.1.1. for usage.'),
   );
 
   $form['islandora_premis_agent_configuration']['islandora_premis_agent_type'] = array(
