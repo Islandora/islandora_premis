@@ -10,7 +10,7 @@
 <!-- Define a global parameter containing the Islandora object's PID. -->
 <xsl:param name = "pid" select="foxml:digitalObject/@PID" />
 
-<!-- Global parameters exported from out solution pack. -->
+<!-- Global parameters exported from the XSLT processor. -->
 <xsl:param name="premis_agent_name_organization" />
 <xsl:param name="premis_agent_identifier_organization" />
 <xsl:param name="premis_agent_identifier_type" />
@@ -129,6 +129,15 @@
         </agentIdentifier>
         <agentName><xsl:value-of select="$premis_agent_name_organization" /></agentName>
         <agentType><xsl:value-of select="$premis_agent_type_organization" /></agentType>
+    </agent>
+    <!-- Hard code values for Fedora Repository for now. @todo: Add admin option for changing version? -->
+    <agent>
+        <agentIdentifier>
+            <agentIdentifierType>http://id.loc.gov/vocabulary/preservation/agentType</agentIdentifierType>
+            <agentIdentifierValue>http://www.fedora-commons.org/</agentIdentifierValue>
+        </agentIdentifier>
+        <agentName>Fedora Repository</agentName>
+        <agentType>software</agentType>
     </agent>
    
    </premis>
