@@ -63,8 +63,8 @@
                         <xsl:value-of select="foxml:contentDigest/@DIGEST" />
                     </messageDigest>
                     </fixity>
-                    <format>
                     <size><xsl:value-of select="@SIZE"/></size>
+                    <format>
 			<formatDesignation>
                         	<formatName><xsl:value-of select="@MIMETYPE"/></formatName>
 			</formatDesignation>
