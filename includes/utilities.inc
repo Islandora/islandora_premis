@@ -23,7 +23,7 @@ function islandora_premis_run_xsl_transform($info) {
   $input->loadXML($info['input']);
   $processor = new XSLTProcessor();
   $processor->importStylesheet($xsl);
-  // hese parameters are used in foxml_to_premis.xsl.
+  // These parameters are used in foxml_to_premis.xsl.
   $processor->setParameter('', 'premis_agent_name_organization', variable_get('islandora_premis_agent_name', 'Your Organization'));
   $processor->setParameter('', 'premis_agent_identifier_organization', variable_get('islandora_premis_agent_identifier', 'some_unique_string'));
   $processor->setParameter('', 'premis_agent_identifier_type', variable_get('islandora_premis_agent_identifier_type', 'MARC Organization Codes'));
@@ -123,11 +123,12 @@ function islandora_premis_get_foxml(AbstractObject $object) {
  * Performs call to Fedora REST API to get version number.
  *
  * @return string
+ *   A string representing the Fedora Commons version
  */
 function islandora_premis_get_fc_version() {
-  $url = variable_get('islandora_base_url', 'http://localhost:8080/fedora') . 
+  $url = variable_get('islandora_base_url', 'http://localhost:8080/fedora') .
     '/describe?xml=true';
   $describe_xml = file_get_contents($url);
-  $fedoraRepository = new SimpleXMLElement($describe_xml);
-  return $fedoraRepository->repositoryVersion;
+  $fedora_repository = new SimpleXMLElement($describe_xml);
+  return $fedora_repository->repositoryVersion;
 }
