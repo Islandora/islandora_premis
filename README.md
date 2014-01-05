@@ -6,8 +6,7 @@
 
 ### Summary
 
-This module produces an XML representation of [PREMIS](http://www.loc.gov/standards/premis/) metadata for objects in your repository. Currently, it only creates PREMIS 'event' entries for Managed datastreams in an Islandora object, documenting all fixity checks performed on versions of those datastreams. Also includes 'agent' entries for your insitution and for the Fedora Commons software. PREMIS XLM describing all the datastreams in an object [looks like this](https://gist.github.com/mjordan/8256978).
-
+This module produces an XML and HTML representation of [PREMIS](http://www.loc.gov/standards/premis/) metadata for objects in your repository. Currently, it only creates PREMIS 'event' entries for Managed datastreams in an Islandora object, documenting all fixity checks performed on versions of those datastreams. Also includes 'agent' entries for your insitution and for the Fedora Commons software. PREMIS XML describing all the datastreams in an object [looks like this](https://gist.github.com/mjordan/8256978), and a HTML rendering [looks like this](http://digital.library.yorku.ca/yul-88675/new-woodbine-racehorses-train-opening-season/view_premis).
 ### Requirements
 
 None. But, it is recommended to download and install [Islandora Checksum](https://github.com/ruebot/islandora_checksum) and [Islandora Checksum Checker](https://github.com/mjordan/islandora_checksum_checker)
