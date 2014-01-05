@@ -6,15 +6,19 @@
 
 ### Summary
 
-Allows for the dissemination of PREMIS.
+This module produces an XML representation of PREMIS (http://www.loc.gov/standards/premis/) metadata for objects in your repository. Currently, it only creates PREMIS 'event' entries for Managed datastreams in an Islandora object, documenting all fixity checks performed on versions of those datastreams. Also includes 'agent' entries for your insitution and for the Fedora Commons software.
 
 ### Requirements
+
+None, but enabling https://github.com/mjordan/islandora_checksum_checker will populate your Islandora objects' audit logs with fixity checking 'events' that map to PREMIS.
 
 ### Installation
 
 `cd $ISLANDORA_HOME/sites/all/modules && git clone https://github.com/ruebot/islandora_premis`
 
 ### Configuration
+
+Go to admin/islandora/premis and configure your insitutions's 'agent' settings.
 
 ### License
 
