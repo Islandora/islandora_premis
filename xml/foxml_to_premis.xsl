@@ -15,6 +15,8 @@
 <xsl:param name="premis_agent_identifier_organization" />
 <xsl:param name="premis_agent_identifier_type" />
 <xsl:param name="premis_agent_type_organization" />
+<!-- Note: the version number is current at time of deriving PREMIS, not at time of creation of audit log entry. -->
+<xsl:param name="fedora_commons_version" />
 
 <xsl:preserve-space elements="*" />
 
@@ -123,7 +125,17 @@
                                             <!-- eventOutcome should be coded, not free text. -->
                                             <xsl:value-of select="substring-after(audit:justification, 'PREMIS:eventOutcome=')" />
                                         </eventOutcome>
-                                    </eventOutcomeInformation>                                                                                        
+                                    </eventOutcomeInformation>
+                                    <linkingAgentIdentifier>
+                                      <linkingAgentIdentifierType><xsl:value-of select="$premis_agent_identifier_type" /></linkingAgentIdentifierType>
+                                      <linkingAgentIdentifierValue><xsl:value-of select="$premis_agent_identifier_organization" /></linkingAgentIdentifierValue>
+                                      <linkingAgentRole>Implementer</linkingAgentRole>
+                                    </linkingAgentIdentifier>
+                                    <linkingAgentIdentifier>
+                                      <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+                                      <linkingAgentIdentifierValue>http://www.fedora-commons.org/</linkingAgentIdentifierValue>
+                                      <linkingAgentRole>Validator</linkingAgentRole>
+                                    </linkingAgentIdentifier>
                             </event>
                         </xsl:if>
                     </xsl:for-each>
@@ -143,10 +155,10 @@
     <!-- Hard code values for Fedora Repository for now. @todo: Add admin option for changing version? -->
     <agent>
         <agentIdentifier>
-            <agentIdentifierType>http://id.loc.gov/vocabulary/preservation/agentType</agentIdentifierType>
+            <agentIdentifierType>URI</agentIdentifierType>
             <agentIdentifierValue>http://www.fedora-commons.org/</agentIdentifierValue>
         </agentIdentifier>
-        <agentName>Fedora Repository</agentName>
+        <agentName>Fedora Repository <xsl:value-of select="$fedora_commons_version" /></agentName>
         <agentType>software</agentType>
     </agent>
    
