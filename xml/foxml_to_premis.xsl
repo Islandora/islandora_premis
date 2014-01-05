@@ -56,7 +56,6 @@
                     </xsl:choose>
                     <fixity>
                     <!-- Currently not working... -->
-                    <xsl:comment>@todo: Get messageDigestAlgorithm and messageDigest working.</xsl:comment>
                     <messageDigestAlgorithm>
                         <xsl:value-of select="foxml:contentDigest/@TYPE" />
                     </messageDigestAlgorithm>
