@@ -7,96 +7,184 @@
 	<xsl:strip-space elements="*" />
 	
 	<xsl:template match="/premis:premis">
-		<table id="premis_object" class="collapsible">
-			<tr><th colspan="2" bgcolor="#CCCCCC">PREMIS OBJECT</th></tr>
-			<tr><th>Element Name</th><th>Element Value</th></tr>	
+<!-- PREMIS OBJECT CONTAINER -->
+		<fieldset class="form-wrapper">
+			<legend>
+				<span class="fieldset-legend">PREMIS Object</span>
+			</legend>
+			<div class="fieldset-wrapper">
+				<table class="sticky-header" style="position: fixed; top: 65px; left: 152.5px; visibility: hidden; width: 600px;">
+					<thead style="display: block;">
+						<tr>
+							<th style="width: 279px; display: table-cell;">Field</th>
+							<th style="width: 279px; display: table-cell;">Value</th>
+						</tr>
+					</thead>
+				</table>
+				<table class="islandora_premis_table sticky-enabled tableheader-processed sticky-table">
+					<thead>
+						<tr>
+							<th>Field</th>
+							<th>Value</th>
+						</tr>
+					</thead>
+					<tbody>
 			<xsl:apply-templates select="premis:object[@xsi:type='file']"/>
-		</table>
-		<table id="premis_event" class="collapsible">
-			<tr><th colspan="2" bgcolor="#CCCCCC">PREMIS EVENT</th></tr>
-			<tr><th>Element Name</th><th>Element Value</th></tr>
+					</tbody>
+				</table>
+			</div>
+		</fieldset>
+<!-- PREMIS EVENT CONTAINER -->
+		<fieldset class="form-wrapper">
+			<legend>
+				<span class="fieldset-legend">PREMIS Events</span>
+			</legend>
+			<div class="fieldset-wrapper">
+				<table class="sticky-header" style="position: fixed; top: 65px; left: 152.5px; visibility: hidden; width: 600px;">
+					<thead style="display: block;">
+						<tr>
+							<th style="width: 279px; display: table-cell;">Field</th>
+							<th style="width: 279px; display: table-cell;">Value</th>
+						</tr>
+					</thead>
+				</table>
+				<table class="islandora_premis_table sticky-enabled tableheader-processed sticky-table">
+					<thead>
+						<tr>
+							<th>Field</th>
+							<th>Value</th>
+						</tr>
+					</thead>
+					<tbody>
 				<xsl:apply-templates select="premis:event"/>
-		</table>
-		<table id="premis_agent" class="collapsible">
-			<tr><th colspan="2" bgcolor="#CCCCCC">PREMIS AGENT</th></tr>
-			<tr><th>Element Name</th><th>Element Value</th></tr>
-				<xsl:apply-templates select="premis:agent"/>
-		</table>
-		<table id="premis_rights" class="collapsible">
-			<tr><th colspan="2" bgcolor="#CCCCCC">PREMIS RIGHTS</th></tr>
-			<tr><th>Element Name</th><th>Element Value</th></tr>
-			<xsl:apply-templates select="premis:rights"/>
-		</table>
-	</xsl:template>
-	<xsl:template match="premis:object[@xsi:type='file']">		
-		<tr><td colspan="2" bgcolor="#CCCCCC"><xsl:value-of select="name(premis:objectIdentifier)"/></td></tr>
-		<tr>
-			<td><xsl:value-of select="name(premis:objectIdentifier/premis:objectIdentifierType)"/></td>
-			<td><xsl:value-of select="premis:objectIdentifier/premis:objectIdentifierType"/></td>
-		</tr>
-		<tr>
-			<td><xsl:value-of select="name(premis:objectIdentifier/premis:objectIdentifierValue)"/></td>
-			<td><xsl:value-of select="premis:objectIdentifier/premis:objectIdentifierValue"/></td>
-		</tr>
+					</tbody>
+				</table>
+			</div>
+		</fieldset>
 		
-		<tr><td colspan="2" bgcolor="#CCCCCC"><xsl:value-of select="name(premis:objectCharacteristics)"/></td></tr>
-		<tr>
-			<td><xsl:value-of select="name(premis:objectCharacteristics/premis:compositionLevel)"/></td>
-			<td><xsl:value-of select="premis:objectCharacteristics/premis:compositionLevel"/></td>
+		<!-- PREMIS AGENT CONTAINER -->
+		<fieldset class="form-wrapper">
+			<legend>
+				<span class="fieldset-legend">PREMIS Agent</span>
+			</legend>
+			<div class="fieldset-wrapper">
+				<table class="sticky-header" style="position: fixed; top: 65px; left: 152.5px; visibility: hidden; width: 600px;">
+					<thead style="display: block;">
+						<tr>
+							<th style="width: 279px; display: table-cell;">Field</th>
+							<th style="width: 279px; display: table-cell;">Value</th>
+						</tr>
+					</thead>
+				</table>
+				<table class="islandora_premis_table sticky-enabled tableheader-processed sticky-table">
+					<thead>
+						<tr>
+							<th>Field</th>
+							<th>Value</th>
+						</tr>
+					</thead>
+					<tbody>
+				<xsl:apply-templates select="premis:agent"/>
+					</tbody>
+				</table>
+			</div>
+		</fieldset>
+	
+	<xsl:template match="premis:object[@xsi:type='file']">		
+		<tr class="odd">
+			<td class="islandora_premis_table_labels"><xsl:value-of select="name(premis:objectIdentifier/premis:objectIdentifierType)"/></td>
+			<td class="islandora_premis_table_values"><xsl:value-of select="premis:objectIdentifier/premis:objectIdentifierType"/></td>
 		</tr>
-		<tr><td colspan="2" bgcolor="#CCCCCC"><xsl:value-of select="name(premis:objectCharacteristics/premis:fixity)"/></td></tr>
-		<tr>
-			<td><xsl:value-of
+		<tr class="even">
+			<td class="islandora_premis_table_labels"><xsl:value-of select="name(premis:objectIdentifier/premis:objectIdentifierValue)"/></td>
+			<td class="islandora_premis_table_values"><xsl:value-of select="premis:objectIdentifier/premis:objectIdentifierValue"/></td>
+		</tr>
+		<tr class="odd">
+			<td class="islandora_premis_table_labels"><xsl:value-of select="name(premis:objectCharacteristics/premis:compositionLevel)"/></td>
+			<td class="islandora_premis_table_values"><xsl:value-of select="premis:objectCharacteristics/premis:compositionLevel"/></td>
+		</tr>
+		<tr class="even">
+			<td class="islandora_premis_table_labels"><xsl:value-of
 				select="name(premis:objectCharacteristics/premis:fixity/premis:messageDigestAlgorithm)"/></td>
-			<td><xsl:value-of select="premis:objectCharacteristics/premis:fixity/premis:messageDigestAlgorithm"/></td>
+			<td class="islandora_premis_table_values"><xsl:value-of select="premis:objectCharacteristics/premis:fixity/premis:messageDigestAlgorithm"/></td>
 		</tr>
-		<tr>
-			<td><xsl:value-of
+		<tr class="odd">
+			<td class="islandora_premis_table_labels"><xsl:value-of
 				select="name(premis:objectCharacteristics/premis:fixity/premis:messageDigest)"/></td>
-			<td><xsl:value-of select="premis:objectCharacteristics/premis:fixity/premis:messageDigest"/></td>
+			<td class="islandora_premis_table_values"><xsl:value-of select="premis:objectCharacteristics/premis:fixity/premis:messageDigest"/></td>
 		</tr>
-		<tr>
-			<td><xsl:value-of
+		<tr class="even">
+			<td class="islandora_premis_table_labels"><xsl:value-of
 				select="name(premis:objectCharacteristics/premis:size)"/></td>
-			<td><xsl:value-of select="premis:objectCharacteristics/premis:size"/></td>
+			<td class="islandora_premis_table_values"><xsl:value-of select="premis:objectCharacteristics/premis:size"/></td>
 		</tr>
-		<tr><td colspan="2" bgcolor="#CCCCCC"><xsl:value-of select="name(premis:objectCharacteristics/premis:format)"/></td></tr>
-		<tr>
-			<td><xsl:value-of
+		<tr class="odd">
+			<td class="islandora_premis_table_labels"><xsl:value-of
 				select="name(premis:objectCharacteristics/premis:format/premis:formatDesignation/premis:formatName)"/></td>
-			<td><xsl:value-of select="premis:objectCharacteristics/premis:format/premis:formatDesignation/premis:formatName"/></td>
+			<td class="islandora_premis_table_values"><xsl:value-of select="premis:objectCharacteristics/premis:format/premis:formatDesignation/premis:formatName"/></td>
 		</tr>
-		<tr><td colspan="2" bgcolor="#CCCCCC"><xsl:value-of select="name(premis:storage)"/></td></tr>
-		<tr>
-			<td><xsl:value-of
+		<tr class="even">
+			<td class="islandora_premis_table_labels"><xsl:value-of
 				select="name(premis:storage/premis:contentLocation/premis:contentLocationType)"/></td>
-			<td><xsl:value-of select="premis:storage/premis:contentLocation/premis:contentLocationType"/></td>
+			<td class="islandora_premis_table_values"><xsl:value-of select="premis:storage/premis:contentLocation/premis:contentLocationType"/></td>
 		</tr>
-		<tr>
-			<td><xsl:value-of
+		<tr class="odd">
+			<td class="islandora_premis_table_labels"><xsl:value-of
 				select="name(premis:storage/premis:contentLocation/premis:contentLocationValue)"/></td>
-			<td><xsl:value-of select="premis:storage/premis:contentLocation/premis:contentLocationValue"/></td>
+			<td class="islandora_premis_table_values"><xsl:value-of select="premis:storage/premis:contentLocation/premis:contentLocationValue"/></td>
+		</tr>
+		<tr class="even">
+			<td class="islandora_premis_table_labels"></td>
+			<td class="islandora_premis_table_values"></td>
 		</tr>
 	</xsl:template>
+	
+	<xsl:template match="premis:event">
+		<tr class="odd">
+			<td class="islandora_premis_table_labels"><xsl:value-of
+				select="name(premis:eventIdentifier/premis:eventIdentifierType)"/></td>
+			<td class="islandora_premis_table_values"><xsl:value-of select="premis:eventIdentifier/premis:eventIdentifierType"/></td>
+		</tr>
+		<tr class="even">
+			<td class="islandora_premis_table_labels"><xsl:value-of select="name(premis:eventIdentifier/premis:eventIdentifierValue)"/></td>
+			<td class="islandora_premis_table_values"><xsl:value-of select="premis:eventIdentifier/premis:eventIdentifierValue"/></td>
+		</tr>
+		<tr class="odd">			
+			<td class="islandora_premis_table_labels"><xsl:value-of select="name(premis:eventType)"/></td>
+			<td class="islandora_premis_table_values"><xsl:value-of select="premis:eventType"/></td>
+		</tr>
+		<tr class="even">
+			<td class="islandora_premis_table_labels"><xsl:value-of select="name(premis:eventDateTime)"/></td>
+			<td class="islandora_premis_table_values"><xsl:value-of select="premis:eventDateTime"/></td>
+		</tr>
+		<tr class="odd">			
+			<td class="islandora_premis_table_labels"><xsl:value-of
+				select="name(premis:eventOutcomeInformation/premis:eventOutcome)"/></td>
+			<td class="islandora_premis_table_values"><xsl:value-of select="premis:eventOutcomeInformation/premis:eventOutcome"/></td>
+		</tr>
+		<tr class="even">
+			<td class="islandora_premis_table_labels"></td>
+			<td class="islandora_premis_table_values"></td>
+		</tr>
+	</xsl:template>	
 	
 	<xsl:template match="premis:agent">
-		<tr>
-			<td><xsl:value-of select="name(premis:agentIdentifier/premis:agentIdentifierType)"/></td>
-			<td><xsl:value-of select="premis:agentIdentifier/premis:agentIdentifierType"/></td>
+		<tr class="odd">
+			<td class="islandora_premis_table_labels"><xsl:value-of select="name(premis:agentIdentifier/premis:agentIdentifierType)"/></td>
+			<td class="islandora_premis_table_values"><xsl:value-of select="premis:agentIdentifier/premis:agentIdentifierType"/></td>
 		</tr>
-		<tr>
-			<td><xsl:value-of select="name(premis:agentIdentifier/premis:agentIdentifierValue)"/></td>
-			<td><xsl:value-of select="premis:agentIdentifier/premis:agentIdentifierValue"/></td>
+		<tr class="even">
+			<td class="islandora_premis_table_labels"><xsl:value-of select="name(premis:agentIdentifier/premis:agentIdentifierValue)"/></td>
+			<td class="islandora_premis_table_values"><xsl:value-of select="premis:agentIdentifier/premis:agentIdentifierValue"/></td>
 		</tr>
-		<tr>
-			<td><xsl:value-of select="name(premis:agentName)"/></td>
-			<td><xsl:value-of select="premis:agentName"/></td>
+		<tr class="odd">
+			<td class="islandora_premis_table_labels"><xsl:value-of select="name(premis:agentName)"/></td>
+			<td class="islandora_premis_table_values"><xsl:value-of select="premis:agentName"/></td>
 		</tr>
-		<tr>
-			<td><xsl:value-of select="name(premis:agentType)"/></td>
-			<td><xsl:value-of select="premis:agentType"/></td>
+		<tr class="even">
+			<td class="islandora_premis_table_labels"><xsl:value-of select="name(premis:agentType)"/></td>
+			<td class="islandora_premis_table_values"><xsl:value-of select="premis:agentType"/></td>
 		</tr>
 	</xsl:template>
-	
 	
 </xsl:stylesheet>
