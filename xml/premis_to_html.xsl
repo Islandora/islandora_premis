@@ -2,8 +2,8 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:premis="info:lc/xmlns/premis-v2" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exclude-result-prefixes="xsi premis">
+	
 	<xsl:output method="xml" omit-xml-declaration="yes" encoding="UTF-8" indent="yes"/>
-
 	<xsl:strip-space elements="*" />
 	
 	<xsl:template match="/premis:premis">
@@ -89,6 +89,7 @@
 				</table>
 			</div>
 		</fieldset>
+	</xsl:template>
 	
 	<xsl:template match="premis:object[@xsi:type='file']">		
 		<tr class="odd">
