@@ -125,9 +125,10 @@
                                             <!-- eventOutcome should be coded, not free text. -->
                                             <xsl:value-of select="substring-after(audit:justification, 'PREMIS:eventOutcome=')" />
                                         </eventOutcome>
+                                    </eventOutcomeInformation>
                                     <linkingAgentIdentifier>
-                                      <linkingAgentIdentifierType><xsl:value-of select="$premis_agent_identifier_type" /></linkingAgentIdentifierT
-                                      <linkingAgentIdentifierValue><xsl:value-of select="$premis_agent_identifier_organization" /></linkingAgentId
+                                      <linkingAgentIdentifierType><xsl:value-of select="$premis_agent_identifier_type" /></linkingAgentIdentifierType>
+                                      <linkingAgentIdentifierValue><xsl:value-of select="$premis_agent_identifier_organization" /></linkingAgentIdentifierValue>
                                       <linkingAgentRole>Implementer</linkingAgentRole>
                                     </linkingAgentIdentifier>
                                     <linkingAgentIdentifier>
