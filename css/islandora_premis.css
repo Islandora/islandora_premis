@@ -7,3 +7,10 @@
 .islandora_premis_table_values {
   width: 50%;
 }
+
+.islandora_premis_table thead {
+  background-color: #e0e0e0;
+  border-bottom: black;
+  border-bottom-style: solid;
+  border-bottom-width: thin;
+}

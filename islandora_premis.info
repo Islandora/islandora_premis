@@ -1,7 +1,9 @@
 name = Islandora PREMIS
-description = "Provide a PREMIS datastream upon request."
+description = "Provide a PREMIS upon request."
 dependencies[] = islandora
-package = Islandora
+package = Islandora Tools
 version = 7.x-dev
 core = 7.x
 php = 5.3
+configure = admin/islandora/premis
+stylesheets[all][] = css/islandora_premis.css
