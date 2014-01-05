@@ -42,6 +42,18 @@ function islandora_premis_menu() {
 }
 
 /**
+ * Implements hook_permission().
+ */
+function islandora_premis_permission() {
+  return array(
+    'view premis metadata' => array(
+      'title' => t('View PREMIS metadata'),
+      'description' => t('View (and download) PREMIS metadata'),
+    ),
+  );
+}
+
+/**
  * Delivery callback used to download the output as XML.
  *
  * @param string $output
@@ -70,5 +82,6 @@ function islandora_premis_xml_download($output) {
  *   otherwise.
  */
 function islandora_premis_access_callback($object) {
-  return is_object($object) && isset($object['MODS']) && islandora_datastream_access(FEDORA_VIEW_OBJECTS, $object['MODS']);
+  return is_object($object) && isset($object['DC']) && islandora_datastream_access(FEDORA_VIEW_OBJECTS, $object['DC'])
+    && user_access('view premis metadata');
 }
