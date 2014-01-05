@@ -233,6 +233,13 @@
         <xsl:value-of select="premis:agentIdentifier/premis:agentIdentifierValue"/>
       </td>
     </tr>
+    <tr>
+      <td class="islandora_premis_table_labels">
+        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+      </td>
+      <td class="islandora_premis_table_values">
+      </td>
+    </tr>
     <tr class="odd">
       <td class="islandora_premis_table_labels">
         <xsl:value-of select="name(premis:agentName)"/>
