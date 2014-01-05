@@ -10,11 +10,15 @@ This module produces an XML representation of PREMIS (http://www.loc.gov/standar
 
 ### Requirements
 
-None, but enabling https://github.com/mjordan/islandora_checksum_checker will populate your Islandora objects' audit logs with fixity checking 'events' that map to PREMIS.
+None. But, it is recommended to download and install [Islandora Checksum](https://github.com/ruebot/islandora_checksum) and [Islandora Checksum Checker](https://github.com/mjordan/islandora_checksum_checker)
+
+[Islandora Checksum](https://github.com/ruebot/islandora_checksum) will create checksums.
+
+[Islandora Checksum Checker](https://github.com/mjordan/islandora_checksum_checker) will populate your Islandora objects' audit logs with fixity checking 'events' that map to PREMIS.
 
 ### Installation
 
-`cd $ISLANDORA_HOME/sites/all/modules && git clone https://github.com/ruebot/islandora_premis`
+`cd $ISLANDORA_HOME/sites/all/modules && git clone https://github.com/ruebot/islandora_premis && drush pm-enable islandora_premis`
 
 ### Configuration
 
