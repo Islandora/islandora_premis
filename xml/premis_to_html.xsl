@@ -211,6 +211,13 @@
         <xsl:value-of select="premis:eventOutcomeInformation/premis:eventOutcome"/>
       </td>
     </tr>
+    <tr>
+      <td class="islandora_premis_table_labels">
+        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+      </td>
+      <td class="islandora_premis_table_values">
+      </td>
+    </tr>
     <tr class="even">
       <td class="islandora_premis_table_labels"/>
       <td class="islandora_premis_table_values"/>
