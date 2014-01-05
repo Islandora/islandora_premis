@@ -22,7 +22,7 @@ function islandora_premis_menu() {
     'islandora/object/%islandora_object/download_premis' => array(
       'title' => 'Download PREMIS',
       'type' => MENU_CALLBACK,
-      'page callback' => 'islandora_premis_transform_premis',
+      'page callback' => 'islandora_premis_transform_foxml_to_premis',
       'page arguments' => array(2),
       'access callback' => 'islandora_premis_access_callback',
       'access arguments' => array(2),
