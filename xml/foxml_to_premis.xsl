@@ -28,7 +28,6 @@
     Note that a datastream version that has never had a fixity check performed on it will not be linked to any fixity
     check events.</xsl:comment>
 
-
     <!-- Objects first. --> 
     
     <xsl:comment>'Internal' eventIdentifierType values are comprised of Fedora datasteam ID plus ':' plus Fedora Audit Record ID.</xsl:comment>
@@ -44,8 +43,8 @@
                     <objectIdentifierValue><xsl:value-of select="@ID"/></objectIdentifierValue>
                 </objectIdentifier>
                 <objectCharacteristics>
-                    <!-- added test for original content (compositionLevel=0) and derived content
-                        (compositionLevel=1) -->
+                    <!-- Test for original content (compositionLevel = 0) and derived content
+                        (compositionLevel = 1). -->
                     <xsl:choose>
                         <xsl:when test="starts-with(@ID, 'OBJ') or starts-with(@ID, 'MODS')">
                         <compositionLevel>0</compositionLevel>
@@ -55,12 +54,10 @@
                     </xsl:otherwise>
                     </xsl:choose>
                     <fixity>
-                    <!-- Currently not working... -->
                     <messageDigestAlgorithm>
                         <xsl:value-of select="foxml:contentDigest/@TYPE" />
                     </messageDigestAlgorithm>
                     <messageDigest>
-                        <!-- Currently not working... -->
                         <xsl:value-of select="foxml:contentDigest/@DIGEST" />
                     </messageDigest>
                     </fixity>
@@ -151,7 +148,6 @@
         <agentName><xsl:value-of select="$premis_agent_name_organization" /></agentName>
         <agentType><xsl:value-of select="$premis_agent_type_organization" /></agentType>
     </agent>
-    <!-- Hard code values for Fedora Repository for now. @todo: Add admin option for changing version? -->
     <agent>
         <agentIdentifier>
             <agentIdentifierType>URI</agentIdentifierType>
