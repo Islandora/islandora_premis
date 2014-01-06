@@ -6,14 +6,15 @@
 
 ### Summary
 
-This module produces an XML and HTML representation of [PREMIS](http://www.loc.gov/standards/premis/) metadata for objects in your repository. Currently, it only creates PREMIS 'event' entries for Managed datastreams in an Islandora object, documenting all fixity checks performed on versions of those datastreams. Also includes 'agent' entries for your insitution and for the Fedora Commons software. PREMIS XML describing all the datastreams in an object [looks like this](https://gist.github.com/mjordan/8256978), and a HTML rendering [looks like this](http://digital.library.yorku.ca/yul-89067/city-dover-bought-penetang-group/view_premis).
+This module produces XML and HTML representations of [PREMIS](http://www.loc.gov/standards/premis/) metadata for objects in your repository. Currently, it only creates PREMIS 'event' entries for Managed datastreams in an Islandora object, documenting all fixity checks performed on versions of those datastreams. Also includes 'agent' entries for your insitution and for the Fedora Commons software. PREMIS XML describing all the datastreams in an object [looks like this](https://gist.github.com/mjordan/8256978), and a HTML rendering [looks like this](http://digital.library.yorku.ca/yul-89067/city-dover-bought-penetang-group/view_premis).
+
 ### Requirements
 
-None. But, it is recommended to download and install [Islandora Checksum](https://github.com/ruebot/islandora_checksum) and [Islandora Checksum Checker](https://github.com/mjordan/islandora_checksum_checker)
+None. But, it is recommended to download and install [Islandora Checksum](https://github.com/ruebot/islandora_checksum) and [Islandora Checksum Checker](https://github.com/mjordan/islandora_checksum_checker).
 
 [Islandora Checksum](https://github.com/ruebot/islandora_checksum) will create checksums.
 
-[Islandora Checksum Checker](https://github.com/mjordan/islandora_checksum_checker) will populate your Islandora objects' audit logs with fixity checking 'events' that map to PREMIS.
+[Islandora Checksum Checker](https://github.com/mjordan/islandora_checksum_checker) periodically verifies checksums on datastreams and will populate your Islandora objects' audit logs with fixity checking 'events' that map to PREMIS.
 
 ### Installation
 
