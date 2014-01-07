@@ -291,38 +291,55 @@
                       </td>
     </tr>
   </xsl:template>
+  
   <xsl:template match="premis:rights">
     <tr class="odd">
-      <td class="islandora_premis_table_labels">
-        <xsl:value-of select="name(premis:rightsStatement/premis:rightsStatementIdentifier/premis:rightsStatementIdentifierType)"/>
-      </td>
-      <td class="islandora_premis_table_values">
-        <xsl:value-of select="premis:rightsStatement/premis:rightsStatementIdentifier/premis:rightsStatementIdentifierType"/>
-      </td>
+      <td class="islandora_premis_table_labels"><xsl:value-of select="name(premis:rightsStatement/premis:rightsStatementIdentifier/premis:rightsStatementIdentifierType)"/></td>
+      <td class="islandora_premis_table_values"><xsl:value-of select="premis:rightsStatement/premis:rightsStatementIdentifier/premis:rightsStatementIdentifierType"/></td>
     </tr>
     <tr class="even">
-      <td class="islandora_premis_table_labels">
-        <xsl:value-of select="name(premis:rightsStatement/premis:rightsStatementIdentifier/premis:rightsStatementIdentifierValue)"/>
-      </td>
-      <td class="islandora_premis_table_values">
-        <xsl:value-of select="premis:rightsStatement/premis:rightsStatementIdentifier/premis:rightsStatementIdentifierValue"/>
-      </td>
+      <td class="islandora_premis_table_labels"><xsl:value-of select="name(premis:rightsStatement/premis:rightsStatementIdentifier/premis:rightsStatementIdentifierValue)"/></td>
+      <td class="islandora_premis_table_values"><xsl:value-of select="premis:rightsStatement/premis:rightsStatementIdentifier/premis:rightsStatementIdentifierValue"/></td>
     </tr>
     <tr class="odd">
-      <td class="islandora_premis_table_labels">
-        <xsl:value-of select="name(premis:rightsStatement/premis:rightsBasis)"/>
-      </td>
-      <td class="islandora_premis_table_values">
-        <xsl:value-of select="premis:rightsStatement/premis:rightsBasis"/>
-      </td>
+      <td class="islandora_premis_table_labels"><xsl:value-of select="name(premis:rightsStatement/premis:rightsBasis)"/></td>
+      <td class="islandora_premis_table_values"><xsl:value-of select="premis:rightsStatement/premis:rightsBasis"/></td>
     </tr>
-    <tr>
-      <td class="islandora_premis_table_labels">
-        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
-      </td>
-      <td class="islandora_premis_table_values">
-                      </td>
-    </tr>
-    <!-- to do: flesh out rights -->
-  </xsl:template>
+    <xsl:choose>
+      <xsl:when test="premis:rightsStatement/premis:rightsBasis = 'copyright'">
+        <tr class="even">
+          <td class="islandora_premis_table_labels"><xsl:value-of select="name(premis:rightsStatement/premis:copyrightInformation/premis:copyrightStatus)"/></td>
+          <td class="islandora_premis_table_values"><xsl:value-of select="premis:rightsStatement/premis:copyrightInformation/premis:copyrightStatus"/></td>
+        </tr>
+        <tr class="odd">
+          <td class="islandora_premis_table_labels"><xsl:value-of select="name(premis:rightsStatement/premis:copyrightInformation/premis:copyrightJurisdiction)"/></td>
+          <td class="islandora_premis_table_values"><xsl:value-of select="premis:rightsStatement/premis:copyrightInformation/premis:copyrightJurisdiction"/></td>
+        </tr>
+        <tr class="even">
+          <td class="islandora_premis_table_labels"><xsl:value-of select="name(premis:rightsStatement/premis:copyrightInformation/premis:copyrightNote)"/></td>
+          <td class="islandora_premis_table_values"><xsl:value-of select="premis:rightsStatement/premis:copyrightInformation/premis:copyrightNote"/></td>
+        </tr>
+      </xsl:when>
+      <xsl:when test="premis:rightsStatement/premis:rightsBasis = 'license'">
+        <tr class="even">
+          <td class="islandora_premis_table_labels"><xsl:value-of select="name(premis:rightsStatement/premis:licenseInformation/premis:licenseTerms)"/></td>
+          <td class="islandora_premis_table_values"><xsl:value-of select="premis:rightsStatement/premis:licenseInformation/premis:licenseTerms"/></td>
+        </tr>
+      </xsl:when>
+      <xsl:otherwise>
+        <tr class="even">
+          <td class="islandora_premis_table_labels"><xsl:value-of select="name(premis:rightsStatement/premis:statuteInformation/premis:statuteJurisdiction)"/></td>
+          <td class="islandora_premis_table_values"><xsl:value-of select="premis:rightsStatement/premis:statuteInformation/premis:statuteJurisdiction"/></td>
+        </tr>
+        <tr class="odd">
+          <td class="islandora_premis_table_labels"><xsl:value-of select="name(premis:rightsStatement/premis:statuteInformation/premis:statuteCitation)"/></td>
+          <td class="islandora_premis_table_values"><xsl:value-of	select="premis:rightsStatement/premis:statuteInformation/premis:statuteCitation"/></td>
+        </tr>
+        <tr class="even">
+          <td class="islandora_premis_table_labels"><xsl:value-of	select="name(premis:rightsStatement/premis:statuteInformation/premis:statuteNote)"/></td>
+          <td class="islandora_premis_table_values"><xsl:value-of select="premis:rightsStatement/premis:statuteInformation/premis:statuteNote"/></td>
+        </tr>
+      </xsl:otherwise>
+    </xsl:choose>
+      </xsl:template>
 </xsl:stylesheet>
