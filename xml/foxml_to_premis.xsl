@@ -21,7 +21,7 @@
       <xsl:comment>'Internal' eventIdentifierType values are comprised of Fedora datasteam ID plus ':' plus Fedora Audit Record ID.</xsl:comment>
       <xsl:for-each select="foxml:datastream">
         <xsl:for-each select="foxml:datastreamVersion">
-          <xsl:variable name="content_location" select="foxml:contentLocation/@REF"/>
+          <xsl:variable name="object_content_location" select="/foxml:digitalObject/foxml:datastream/foxml:datastreamVersion/foxml:contentLocation/@REF"/>
           <xsl:variable name="datastream_id" select="@ID"/>
           <object xsi:type="file">
             <objectIdentifier>
@@ -65,7 +65,7 @@
               <contentLocation>
                 <contentLocationType>Fedora Commons contentLocation REF value</contentLocationType>
                 <contentLocationValue>
-                  <xsl:value-of select="$content_location"/>
+                  <xsl:value-of select="$object_content_location"/>
                 </contentLocationValue>
               </contentLocation>
             </storage>
@@ -73,7 +73,7 @@
             <xsl:for-each select="/foxml:digitalObject/foxml:datastream[@ID='AUDIT']/foxml:datastreamVersion/foxml:xmlContent/audit:auditTrail">
               <xsl:for-each select="audit:record">
                 <!-- We're only interested in audit:records that document a PREMIS fixityEvent. -->
-                <xsl:if test="contains(audit:justification, concat('PREMIS:file=', $content_location))">
+                <xsl:if test="contains(audit:justification, concat('PREMIS:file=', $object_content_location))">
                   <xsl:variable name="responsibility" select="audit:responsibility"/>
                   <xsl:variable name="date" select="audit:date"/>
                   <xsl:variable name="justification" select="audit:justification"/>
@@ -93,13 +93,13 @@
       <xsl:comment>'Internal' eventIdentifierType values are comprised of Fedora datasteam ID plus ':' plus Fedora Audit Record ID.</xsl:comment>
       <xsl:for-each select="foxml:datastream">
         <xsl:for-each select="foxml:datastreamVersion">
-          <xsl:variable name="content_location" select="foxml:contentLocation/@REF"/>
+          <xsl:variable name="event_content_location" select="foxml:contentLocation/@REF"/>
           <xsl:variable name="datastream_id" select="@ID"/>
           <!-- There should only be one audit:auditTrail but this for-each loop accounts for multiple. -->
           <xsl:for-each select="/foxml:digitalObject/foxml:datastream[@ID='AUDIT']/foxml:datastreamVersion/foxml:xmlContent/audit:auditTrail">
             <xsl:for-each select="audit:record">
               <!-- We're only interested in audit:records that document a PREMIS fixityEvent. -->
-              <xsl:if test="contains(audit:justification, concat('PREMIS:file=', $content_location))">
+              <xsl:if test="contains(audit:justification, concat('PREMIS:file=', $event_content_location))">
                 <xsl:variable name="responsibility" select="audit:responsibility"/>
                 <xsl:variable name="date" select="audit:date"/>
                 <xsl:variable name="justification" select="audit:justification"/>

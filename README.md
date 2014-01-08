@@ -6,7 +6,7 @@
 
 ### Summary
 
-This module produces XML and HTML representations of [PREMIS](http://www.loc.gov/standards/premis/) metadata for objects in your repository. Currently, it only creates PREMIS 'event' entries for Managed datastreams in an Islandora object, documenting all fixity checks performed on versions of those datastreams. Also includes 'agent' entries for your insitution and for the Fedora Commons software and, maps contents of each object's "rights" elements in DC datastreams to equivalent PREMIS "rightsExtension" elements.
+This module produces XML and HTML representations of [PREMIS](http://www.loc.gov/standards/premis/) metadata for objects in your repository. Currently, it documents all fixity checks performed on datastreams, includes 'agent' entries for your insitution and for the Fedora Commons software and, maps contents of each object's "rights" elements in DC datastreams to equivalent PREMIS "rightsExtension" elements.
 
 PREMIS XML describing all the datastreams in an object [looks like this](https://gist.github.com/mjordan/8256978), and a HTML rendering [looks like this](http://digital.library.yorku.ca/yul-89067/city-dover-bought-penetang-group/view_premis).
 
