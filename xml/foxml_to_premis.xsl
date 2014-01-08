@@ -38,7 +38,7 @@
         <!-- Currently, we only describe 'managed' datastreams. -->
         <xsl:for-each select="foxml:datastream[@CONTROL_GROUP='M']">
             <xsl:for-each select="foxml:datastreamVersion">
-                <xsl:variable name="content_location" select="foxml:contentLocation/@REF" />
+                <xsl:variable name="content_location" select="foxml:contentLocation/@REF" />                
                 <xsl:variable name="datastream_id" select="@ID" />
                 <object xsi:type="file">
                     <objectIdentifier>
@@ -73,7 +73,7 @@
                     <storage>
                         <contentLocation>
                             <contentLocationType>Fedora Commons contentLocation REF value</contentLocationType>
-                            <contentLocationValue><xsl:value-of select="foxml:contentLocation/@REF"/></contentLocationValue>
+                            <contentLocationValue><xsl:value-of select="$content_location"/></contentLocationValue>
                         </contentLocation>
                     </storage>
                     <!-- There should only be one audit:auditTrail but this for-each loop accounts for multiple. -->
