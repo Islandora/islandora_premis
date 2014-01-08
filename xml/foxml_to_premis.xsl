@@ -16,10 +16,6 @@
     <xsl:param name="premis_agent_identifier_type" />
     <xsl:param name="premis_agent_type_organization" />
     
-    <!-- parameters for rights -->
-    <xsl:param name="premis_rights_statuteInformation_statuteJurisdiction"/>
-    <xsl:param name="premis_rights_copyrightInformation_copyrightStatus_copyrightJurisdiction"/>
-    
     <!-- Note: the version number is current at time of deriving PREMIS, not at time of creation of audit log entry. -->
     <xsl:param name="fedora_commons_version" />
 

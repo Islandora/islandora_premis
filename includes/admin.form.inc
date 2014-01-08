@@ -56,24 +56,5 @@ function islandora_premis_admin_form(array $form, array &$form_state) {
     '#default_value' => variable_get('islandora_premis_agent_type', 'organization'),
   );
 
-  $form['islandora_premis_rights_configuration'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Rights configuration'),
-  );
-
-  $form['islandora_premis_rights_configuration']['islandora_premis_rights_copyright_jurisdiction'] = array(
-    '#type' => 'textfield',
-    '#title' => t('copyrightJurisdiction'),
-    '#description' => t('Sample: Canada <br /> Values should be taken from a controlled vocabulary. See: http://id.loc.gov/vocabulary/countries.html'),
-    '#default_value' => variable_get('islandora_premis_rights_copyright_jurisdiction', 'ca'),
-  );
-
-  $form['islandora_premis_rights_configuration']['islandora_premis_rights_statute_jurisdiction'] = array(
-    '#type' => 'textfield',
-    '#title' => t('statuteJurisdiction'),
-    '#description' => t('Sample: Ontario, Canada'),
-    '#default_value' => variable_get('islandora_premis_rights_statute_jurisdiction', 'Ontario, Canada'),
-  );
-
   return system_settings_form($form);
 }
