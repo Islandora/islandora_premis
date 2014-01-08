@@ -39,7 +39,6 @@
         
         <xsl:comment>'Internal' eventIdentifierType values are comprised of Fedora datasteam ID plus ':' plus Fedora Audit Record ID.</xsl:comment>
 
-        <!-- Currently, we only describe 'managed' datastreams. -->
         <xsl:for-each select="foxml:datastream">
             <xsl:for-each select="foxml:datastreamVersion">
                 <xsl:variable name="content_location" select="foxml:contentLocation/@REF" />
