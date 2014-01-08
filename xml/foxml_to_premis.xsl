@@ -35,8 +35,7 @@
         
         <xsl:comment>'Internal' eventIdentifierType values are comprised of Fedora datasteam ID plus ':' plus Fedora Audit Record ID.</xsl:comment>
 
-        <!-- Currently, we only describe 'managed' datastreams. -->
-        <xsl:for-each select="foxml:datastream[@CONTROL_GROUP='M']">
+        <xsl:for-each select="foxml:datastream">
             <xsl:for-each select="foxml:datastreamVersion">
                 <xsl:variable name="content_location" select="foxml:contentLocation/@REF" />                
                 <xsl:variable name="datastream_id" select="@ID" />
@@ -63,7 +62,9 @@
                                 <xsl:value-of select="foxml:contentDigest/@DIGEST" />
                             </messageDigest>
                         </fixity>
+                        <xsl:if test="string-length(@SIZE)">
                         <size><xsl:value-of select="@SIZE"/></size>
+                        </xsl:if>
                         <format>
                             <formatDesignation>
                                 <formatName><xsl:value-of select="@MIMETYPE"/></formatName>
@@ -99,7 +100,7 @@
        
        <xsl:comment>'Internal' eventIdentifierType values are comprised of Fedora datasteam ID plus ':' plus Fedora Audit Record ID.</xsl:comment>
        
-        <xsl:for-each select="foxml:datastream[@CONTROL_GROUP='M']">
+        <xsl:for-each select="foxml:datastream">
             <xsl:for-each select="foxml:datastreamVersion">
                 <xsl:variable name="content_location" select="foxml:contentLocation/@REF" />
                 <xsl:variable name="datastream_id" select="@ID" />
