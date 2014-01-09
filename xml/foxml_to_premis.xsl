@@ -13,7 +13,7 @@
   <xsl:preserve-space elements="*"/>
   <xsl:template match="foxml:digitalObject">
     <premis xmlns="info:lc/xmlns/premis-v2" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xsi:schemaLocation="info:lc/xmlns/premis-v2             http://www.loc.gov/standards/premis/v2/premis.xsd" version="2.2">
-      <xsl:comment>PREMIS data for Islandora object <xsl:value-of select="$pid"/>. Contains object entries for each Managed datastream
+      <xsl:comment>PREMIS data for Islandora object <xsl:value-of select="$pid"/>. Contains object entries for each datastream
         in an Islandora object, and event entries documenting all fixity checks performed on versions of those datastreams.
         Note that a datastream version that has never had a fixity check performed on it will not be linked to any fixity
         check events.</xsl:comment>
