@@ -107,7 +107,7 @@ function islandora_premis_get_foxml(AbstractObject $object) {
   $foxml = $connection->api->m->export($object->id,
     array(
       'format' => 'info:fedora/fedora-system:FOXML-1.1',
-      'context' => 'archive',
+      'context' => 'migrate',
       'encoding' => 'UTF-8')
     );
 
