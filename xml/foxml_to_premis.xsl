@@ -31,15 +31,7 @@
               </objectIdentifierValue>
             </objectIdentifier>
             <objectCharacteristics>
-              <!-- Test for original content (compositionLevel = 0) and derived content (compositionLevel = 1). -->
-              <xsl:choose>
-                <xsl:when test="starts-with(@ID, 'OBJ') or starts-with(@ID, 'MODS')">
-                  <compositionLevel>0</compositionLevel>
-                </xsl:when>
-                <xsl:otherwise>
-                  <compositionLevel>1</compositionLevel>
-                </xsl:otherwise>
-              </xsl:choose>
+              <compositionLevel>0</compositionLevel>
               <fixity>
                 <messageDigestAlgorithm>
                   <xsl:value-of select="foxml:contentDigest/@TYPE"/>
