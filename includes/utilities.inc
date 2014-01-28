@@ -29,7 +29,7 @@ function islandora_premis_run_xsl_transform($info) {
   $processor->setParameter('', 'premis_agent_identifier_type', variable_get('islandora_premis_agent_identifier_type', 'MARC Organization Codes'));
   $processor->setParameter('', 'premis_agent_type_organization', variable_get('islandora_premis_agent_type', 'organization'));
   $processor->setParameter('', 'fedora_commons_version', islandora_premis_get_fc_version());
-  // XXX: Suppressing warnings regarding unregistered prefixes.
+  // @ suppresses warnings regarding unregistered prefixes.
   return @$processor->transformToXML($input);
 }
 
@@ -44,6 +44,54 @@ function islandora_premis_run_xsl_transform($info) {
  */
 function islandora_premis_transform_foxml_to_premis(AbstractObject $object) {
   $foxml_str = islandora_premis_get_foxml($object);
+
+  // Acrobatics to insert the FITS TECHMD datastream into the outgoing
+  // FOXML. We can't use the DOM to do this because PHP is not able to
+  // pass elements into an XSL stylesheet if they contains both double
+  // and single quotes (bug reference https://bugs.php.net/bug.php?id=64137).
+  // To get around this, we use XMLWriter to create an inline datastream
+  // (ID="FITS_OUTPUT_COPY") and insert that as serialized XML into the FOXML
+  // via XMLWriter's writeRaw() function so we can process it in
+  // foxml_to_premis.xsl.
+  if ($foxml_str) {
+    $dsid = variable_get('islandora_fits_techmd_dsid', 'TECHMD');
+    if (isset($object[$dsid])) {        
+      $ds = new XMLWriter();
+      $ds->openMemory();
+      $ds->setIndent(TRUE);
+      $ds->startDocument();
+      $ds->startElementNS('foxml', 'datastream', 'info:fedora/fedora-system:def/foxml#');
+      $ds->writeAttribute('xmlns:xsi', "http://www.w3.org/2001/XMLSchema-instance");
+      // We don't use the DSID configured in the FITS module because we need to
+      // be able to predict it in the XMLT.
+      $ds->writeAttribute('ID', 'FITS_OUTPUT_COPY');
+      $ds->writeAttribute('STATE', 'A');
+      $ds->writeAttribute('CONTROL_GROUP', 'X');
+      $ds->writeAttribute('VERSIONABLE', 'false');
+      $ds->startElementNS('foxml', 'datastreamVersion', NULL);
+      $ds->writeAttribute('ID', 'FITS_OUTPUT_COPY.0');
+      $ds->writeAttribute('LABEL', 'Copy of FITS XML');
+      $ds->writeAttribute('MIMETYPE', 'text/xml');
+      $ds->startElementNS('foxml', 'xmlContent', NULL);
+      $fits_string = preg_replace('/^<\?xml\sversion="1\.0"\sencoding="UTF-8"\?>/',
+        '',  $object[$dsid]->content);
+      $ds->writeRaw($fits_string);
+      $ds->endElement(); // foxml:xmlContent
+      $ds->endElement(); // foxml:datastreamVersion
+      $ds->endElement(); // foxml:datastream
+      $ds->endDocument();
+      $ds_string = $ds->outputMemory();
+      // Inline XML can't have an XML declaration.
+      $ds_string = preg_replace('/^<\?xml\sversion="1\.0"\?>/', '',  $ds_string);
+      $foxml = new DOMDocument();
+      $foxml->loadXML($foxml_str);
+      $fragment = $foxml->createDocumentFragment();
+      $fragment->appendXML($ds_string);
+      $foxml->documentElement->appendChild($fragment);
+      $foxml_str = $foxml->saveXML();
+    }
+  }
+  
   if (!$foxml_str) {
     drupal_not_found();
   }

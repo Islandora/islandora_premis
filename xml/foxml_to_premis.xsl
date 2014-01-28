@@ -12,11 +12,11 @@
   <xsl:param name="fedora_commons_version"/>
   <xsl:preserve-space elements="*"/>
   <xsl:template match="foxml:digitalObject">
-    <premis xmlns="info:lc/xmlns/premis-v2" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xsi:schemaLocation="info:lc/xmlns/premis-v2             http://www.loc.gov/standards/premis/v2/premis.xsd" version="2.2">
+    <premis xmlns="info:lc/xmlns/premis-v2" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis.xsd" version="2.2">
       <xsl:comment>PREMIS data for Islandora object <xsl:value-of select="$pid"/>. Contains object entries for each datastream
-        in an Islandora object, and event entries documenting all fixity checks performed on versions of those datastreams.
-        Note that a datastream version that has never had a fixity check performed on it will not be linked to any fixity
-        check events.</xsl:comment>
+        in an Islandora object, and event entries documenting all fixity checks performed on
+        versions of those datastreams. Note that a datastream version that has never had a fixity
+        check performed on it will not be linked to any fixity check events.</xsl:comment>
       <!-- Objects first. -->
       <xsl:comment>'Internal' eventIdentifierType values are comprised of Fedora datasteam ID plus ':' plus Fedora Audit Record ID.</xsl:comment>
       <xsl:for-each select="foxml:datastream">
@@ -52,6 +52,14 @@
                   </formatName>
                 </formatDesignation>
               </format>
+              <!-- We only want to output the FITS XML if we are dealing with the OBJ datastream. -->
+              <xsl:if test="../@ID='OBJ'">
+                <xsl:if test="/foxml:digitalObject/foxml:datastream[@ID='FITS_OUTPUT_COPY']">
+                  <objectCharacteristicsExtension>
+                    <xsl:copy-of select="/foxml:digitalObject/foxml:datastream[@ID='FITS_OUTPUT_COPY']/foxml:datastreamVersion[@ID='FITS_OUTPUT_COPY.0']/foxml:xmlContent"/>
+                  </objectCharacteristicsExtension>
+                </xsl:if>
+              </xsl:if>
             </objectCharacteristics>
             <storage>
               <contentLocation>
