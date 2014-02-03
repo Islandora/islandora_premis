@@ -70,7 +70,7 @@ function islandora_premis_xml_download($output) {
 /**
  * Access callback.
  *
- * Requires that the given object contains a MODS datastream (and to be
+ * Requires that the given object contains a DC datastream (and to be
  * viewable, as per the stock permissions).
  *
  * @param AbstractObject $object

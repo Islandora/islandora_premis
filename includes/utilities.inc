@@ -39,8 +39,9 @@ function islandora_premis_run_xsl_transform($info) {
  * @param AbstractObject $object
  *   A Fedora object containing a FOXML datastream.
  *
- * @return string
- *   The transformed XML, as a string.
+ * @return array| bool 
+ *   An array containing the serialized FOXML and the path to the stylesheet,
+ *   or FALSE if the FOXML is not retrievable.
  */
 function islandora_premis_transform_foxml_to_premis(AbstractObject $object) {
   $foxml_str = islandora_premis_get_foxml($object);
@@ -103,13 +104,26 @@ function islandora_premis_get_foxml(AbstractObject $object) {
   // Use the Tuque API-M to export the FOXML for the object.
   global $user;
   $fedora_url = variable_get('islandora_base_url', 'http://localhost:8080/fedora');
-  $connection = islandora_get_tuque_connection($user, $fedora_url);
-  $foxml = $connection->api->m->export($object->id,
-    array(
-      'format' => 'info:fedora/fedora-system:FOXML-1.1',
-      'context' => 'migrate',
-      'encoding' => 'UTF-8')
+  try {
+    $connection = islandora_get_tuque_connection($user, $fedora_url);
+    $foxml = $connection->api->m->export($object->id,
+      array(
+        'format' => 'info:fedora/fedora-system:FOXML-1.1',
+        'context' => 'migrate',
+        'encoding' => 'UTF-8')
+      );
+  }
+  catch (exception $e) {
+    drupal_set_message(t(
+        "Error retrieving FOXML required to generate PREMIS: '@message'",
+        array("@message" => $e->getMessage())));
+    watchdog(
+      'islandora_premis',
+      'Error retrieving FOXML required to generate PREMIS, with stack: @trace',
+      array('@trace' => $e->getTraceAsString()),
+      WATCHDOG_ERROR
     );
+  }
 
   if ($foxml) {
     return $foxml;
