@@ -82,7 +82,7 @@ function islandora_premis_transform_foxml_to_premis(AbstractObject $object) {
       $ds->endDocument();
       $ds_string = $ds->outputMemory();
       // Inline XML can't have an XML declaration.
-      $ds_string = preg_replace('/^<\?xml\sversion="1\.0"\?>/', '',  $ds_string);
+      $ds_string = preg_replace('/^<\?xml\sversion="1\.0"\?>/', '', $ds_string);
       $foxml = new DOMDocument();
       $foxml->loadXML($foxml_str);
       $fragment = $foxml->createDocumentFragment();
