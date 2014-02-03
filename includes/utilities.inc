@@ -55,7 +55,7 @@ function islandora_premis_transform_foxml_to_premis(AbstractObject $object) {
   // foxml_to_premis.xsl.
   if ($foxml_str) {
     $dsid = variable_get('islandora_fits_techmd_dsid', 'TECHMD');
-    if (isset($object[$dsid])) {        
+    if (isset($object[$dsid])) {
       $ds = new XMLWriter();
       $ds->openMemory();
       $ds->setIndent(TRUE);
@@ -74,7 +74,7 @@ function islandora_premis_transform_foxml_to_premis(AbstractObject $object) {
       $ds->writeAttribute('MIMETYPE', 'text/xml');
       $ds->startElementNS('foxml', 'xmlContent', NULL);
       $fits_string = preg_replace('/^<\?xml\sversion="1\.0"\sencoding="UTF-8"\?>/',
-        '',  $object[$dsid]->content);
+        '', $object[$dsid]->content);
       $ds->writeRaw($fits_string);
       $ds->endElement(); // foxml:xmlContent
       $ds->endElement(); // foxml:datastreamVersion
@@ -91,7 +91,7 @@ function islandora_premis_transform_foxml_to_premis(AbstractObject $object) {
       $foxml_str = $foxml->saveXML();
     }
   }
-  
+
   if (!$foxml_str) {
     drupal_not_found();
   }
