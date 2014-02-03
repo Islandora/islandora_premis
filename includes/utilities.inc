@@ -39,7 +39,7 @@ function islandora_premis_run_xsl_transform($info) {
  * @param AbstractObject $object
  *   A Fedora object containing a FOXML datastream.
  *
- * @return array| bool 
+ * @return array|bool 
  *   An array containing the serialized FOXML and the path to the stylesheet,
  *   or FALSE if the FOXML is not retrievable.
  */
@@ -77,9 +77,12 @@ function islandora_premis_transform_foxml_to_premis(AbstractObject $object) {
       $fits_string = preg_replace('/^<\?xml\sversion="1\.0"\sencoding="UTF-8"\?>/',
         '', $object[$dsid]->content);
       $ds->writeRaw($fits_string);
-      $ds->endElement(); // foxml:xmlContent
-      $ds->endElement(); // foxml:datastreamVersion
-      $ds->endElement(); // foxml:datastream
+      // Closes foxml:xmlContent.
+      $ds->endElement();
+      // Closes foxml:datastreamVersion.
+      $ds->endElement();
+      // Closes foxml:datastream.
+      $ds->endElement();
       $ds->endDocument();
       $ds_string = $ds->outputMemory();
       // Inline XML can't have an XML declaration.
