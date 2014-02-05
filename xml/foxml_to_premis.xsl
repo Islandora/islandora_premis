@@ -19,7 +19,7 @@
         check performed on it will not be linked to any fixity check events.</xsl:comment>
       <!-- Objects first. -->
       <xsl:comment>'Internal' eventIdentifierType values are comprised of Fedora datasteam ID plus ':' plus Fedora Audit Record ID.</xsl:comment>
-      <xsl:for-each select="foxml:datastream">
+      <xsl:for-each select="foxml:datastream[not(@ID='FITS_OUTPUT_COPY')]">
         <xsl:for-each select="foxml:datastreamVersion">
           <xsl:variable name="datastream_id" select="@ID"/>
           <object xsi:type="file">
@@ -90,7 +90,7 @@
       </xsl:for-each>
       <!-- Then their events. -->
       <xsl:comment>'Internal' eventIdentifierType values are comprised of Fedora datasteam ID plus ':' plus Fedora Audit Record ID.</xsl:comment>
-      <xsl:for-each select="foxml:datastream">
+      <xsl:for-each select="foxml:datastream[not(@ID='FITS_OUTPUT_COPY')]">
         <xsl:for-each select="foxml:datastreamVersion">
           <xsl:variable name="event_content_location" select="foxml:contentLocation/@REF"/>
           <xsl:variable name="datastream_id" select="@ID"/>
