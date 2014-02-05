@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:foxml="info:fedora/fedora-system:def/foxml#" xmlns:audit="info:fedora/fedora-system:def/audit#" xmlns:fedora="info:fedora/fedora-system:def/relations-external#" xmlns:fedora-model="info:fedora/fedora-system:def/model#" xmlns:islandora="http://islandora.ca/ontology/relsext#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" version="1.0" exclude-result-prefixes="fedora fedora-model foxml audit islandora rdf">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:foxml="info:fedora/fedora-system:def/foxml#" xmlns:audit="info:fedora/fedora-system:def/audit#" xmlns:fedora="info:fedora/fedora-system:def/relations-external#" xmlns:fedora-model="info:fedora/fedora-system:def/model#" xmlns:islandora="http://islandora.ca/ontology/relsext#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:fits="http://hul.harvard.edu/ois/xml/ns/fits/fits_output" version="1.0" exclude-result-prefixes="fedora fedora-model foxml audit islandora rdf">
   <xsl:output method="xml" encoding="utf-8" indent="yes"/>
   <!-- Define a global parameter containing the Islandora object's PID. -->
   <xsl:param name="pid" select="foxml:digitalObject/@PID"/>
@@ -55,7 +55,7 @@
               <xsl:if test="../@ID='OBJ'">
                 <xsl:if test="/foxml:digitalObject/foxml:datastream[@ID='FITS_OUTPUT_COPY']">
                   <objectCharacteristicsExtension>
-                    <xsl:copy-of select="/foxml:digitalObject/foxml:datastream[@ID='FITS_OUTPUT_COPY']/foxml:datastreamVersion[@ID='FITS_OUTPUT_COPY.0']/foxml:xmlContent"/>
+                    <xsl:copy-of select="/foxml:digitalObject/foxml:datastream[@ID='FITS_OUTPUT_COPY']/foxml:datastreamVersion[@ID='FITS_OUTPUT_COPY.0']/foxml:xmlContent/fits:fits"/>
                   </objectCharacteristicsExtension>
                 </xsl:if>
               </xsl:if>
