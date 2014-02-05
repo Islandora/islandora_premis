@@ -148,8 +148,8 @@ function islandora_premis_view(AbstractObject $object) {
  * @pararm AbstractObject $object
  *   The object the FOXML belongs to
  *
- * @return array
- *   An array representing the foxml
+ * @return string|bool
+ *   The FOXML, or FALSE if the FOXML is not available.
  */
 function islandora_premis_get_foxml(AbstractObject $object) {
   // Use the Tuque API-M to export the FOXML for the object.
