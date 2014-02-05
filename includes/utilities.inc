@@ -45,6 +45,9 @@ function islandora_premis_run_xsl_transform($info) {
  */
 function islandora_premis_transform_foxml_to_premis(AbstractObject $object) {
   $foxml_str = islandora_premis_get_foxml($object);
+  if (!$foxml_str) {
+    drupal_not_found();
+  }
 
   // Acrobatics to insert the FITS TECHMD datastream into the outgoing
   // FOXML. We can't use the DOM to do this because PHP is not able to
@@ -96,9 +99,6 @@ function islandora_premis_transform_foxml_to_premis(AbstractObject $object) {
     }
   }
 
-  if (!$foxml_str) {
-    drupal_not_found();
-  }
   return islandora_premis_run_xsl_transform(array(
     'input' => $foxml_str,
     'xsl' => drupal_get_path('module', 'islandora_premis') . '/xml/foxml_to_premis.xsl',
@@ -132,14 +132,14 @@ function islandora_premis_transform_premis_to_html(AbstractObject $object) {
  *   A renderable array representing the tab.
  */
 function islandora_premis_view(AbstractObject $object) {
-  return array(
-    'link' => array(
-      '#markup' => l(t('Download PREMIS'), "islandora/object/{$object->id}/download_premis"),
-    ),
-    'premis' => array(
-      '#markup' => islandora_premis_transform_premis_to_html($object),
-    ),
-  );
+  $tab = array();
+  if (user_access('download premis metadata')) {
+    $tab['link'] = array('#markup' => l(t('Download PREMIS'), "islandora/object/{$object->id}/download_premis"));
+  }
+  if (user_access('view premis metadata')) {
+    $tab['premis'] = array('#markup' => islandora_premis_transform_premis_to_html($object));
+  }
+  return $tab;
 }
 
 /**
@@ -152,6 +152,7 @@ function islandora_premis_view(AbstractObject $object) {
  *   The FOXML, or FALSE if the FOXML is not available.
  */
 function islandora_premis_get_foxml(AbstractObject $object) {
+  $foxml = '';
   // Use the Tuque API-M to export the FOXML for the object.
   global $user;
   $fedora_url = variable_get('islandora_base_url', 'http://localhost:8080/fedora');

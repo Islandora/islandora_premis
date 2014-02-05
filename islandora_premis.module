@@ -24,8 +24,8 @@ function islandora_premis_menu() {
       'type' => MENU_CALLBACK,
       'page callback' => 'islandora_premis_transform_foxml_to_premis',
       'page arguments' => array(2),
-      'access callback' => 'user_access',
-      'access arguments' => array('download premis metadata'),
+      'access callback' => 'islandora_premis_access_callback',
+      'access arguments' => array(2),
       'delivery callback' => 'islandora_premis_xml_download',
       'file' => 'includes/utilities.inc',
     ),
@@ -64,11 +64,13 @@ function islandora_premis_permission() {
  *   The content to download.
  */
 function islandora_premis_xml_download($output) {
-  drupal_add_http_header('Content-type', 'text/xml;charset=utf8');
-  drupal_add_http_header('Content-length', strlen($output));
-  drupal_add_http_header('Content-Disposition', 'attachment; filename="premis.xml"');
-  print $output;
-  drupal_page_footer();
+  if (user_access('download premis metadata')) {
+    drupal_add_http_header('Content-type', 'text/xml;charset=utf8');
+    drupal_add_http_header('Content-length', strlen($output));
+    drupal_add_http_header('Content-Disposition', 'attachment; filename="premis.xml"');
+    print $output;
+    drupal_page_footer();
+  }
 }
 
 /**
