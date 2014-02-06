@@ -177,14 +177,6 @@
         <xsl:value-of select="premis:storage/premis:contentLocation/premis:contentLocationType"/>
       </td>
     </tr>
-    <tr class="odd">
-      <td class="islandora_premis_table_labels">
-        <xsl:value-of select="name(premis:storage/premis:contentLocation/premis:contentLocationValue)"/>
-      </td>
-      <td class="islandora_premis_table_values">
-        <xsl:value-of select="premis:storage/premis:contentLocation/premis:contentLocationValue"/>
-      </td>
-    </tr>
     <tr>
       <td class="islandora_premis_table_labels">
         <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
