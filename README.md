@@ -10,7 +10,7 @@ This module produces XML and HTML representations of [PREMIS](http://www.loc.gov
 
 PREMIS XML describing all the datastreams in an object [looks like this](https://gist.github.com/mjordan/8256978), and a HTML rendering [looks like this](http://digital.library.yorku.ca/yul-89067/city-dover-bought-penetang-group/view_premis).
 
-### Requirements
+## Requirements
 
 This module requires the following modules/libraries:
 
