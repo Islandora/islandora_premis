@@ -2,7 +2,7 @@
 
 ## Build Status
 
-[![Build Status](https://travis-ci.org/ruebot/islandora_premis.png?branch=7.x)](https://travis-ci.org/ruebot/islandora_premis)
+[![Build Status](https://travis-ci.org/Islandora/islandora_premis.png?branch=7.x)](https://travis-ci.org/Islandora/islandora_premis)
 
 ## Introduction
 
