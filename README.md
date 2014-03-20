@@ -1,8 +1,4 @@
-# Islandora PREMIS
-
-## Build Status
-
-[![Build Status](https://travis-ci.org/Islandora/islandora_premis.png?branch=7.x)](https://travis-ci.org/Islandora/islandora_premis)
+# Islandora PREMIS [![Build Status](https://travis-ci.org/Islandora/islandora_premis.png?branch=7.x)](https://travis-ci.org/Islandora/islandora_premis)
 
 ## Introduction
 
