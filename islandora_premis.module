@@ -46,10 +46,6 @@ function islandora_premis_menu() {
  */
 function islandora_premis_permission() {
   return array(
-    'view premis metadata' => array(
-      'title' => t('View PREMIS metadata'),
-      'description' => t('View PREMIS metadata'),
-    ),
     'download premis metadata' => array(
       'title' => t('Download PREMIS metadata'),
       'description' => t('Download PREMIS metadata'),
