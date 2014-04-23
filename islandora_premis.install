@@ -6,12 +6,14 @@
  */
 
 /**
- * Implements hook_update_N()
- *
  * Remove 'View PREMIS metadata' permission
  */
 function islandora_premis_update_7000(&$sandbox) {
-  permissions_revoke_permissions('anonymous user', 'view premis metadata');
-  $t = get_t();
-  return $t("Islandora PREMIS database updates complete");
+  $role = user_role_load_by_name('anonymous user');
+  if (isset($role->rid) && !empty($role->rid)) {
+    user_role_revoke_permissions($role->rid, array('view premis metadata'));
+  }
+  $islandora_premis_update_message = get_islandora_premis_update_message();
+  return $islandora_premis_update_message("Islandora PREMIS database updates complete");
 }
+
