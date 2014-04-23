@@ -85,5 +85,5 @@ function islandora_premis_xml_download($output) {
  */
 function islandora_premis_access_callback($object) {
   return is_object($object) && isset($object['DC']) && islandora_datastream_access(FEDORA_VIEW_OBJECTS, $object['DC'])
-    && !isset($object['COLLECTION_POLICY']) && user_access('view premis metadata');
+    && !isset($object['COLLECTION_POLICY']);
 }
