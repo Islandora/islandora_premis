@@ -6,7 +6,7 @@
  */
 
 /**
- * Remove 'View PREMIS metadata' permission
+ * Remove 'View PREMIS metadata' permission.
  */
 function islandora_premis_update_7000(&$sandbox) {
   $role = user_role_load_by_name('anonymous user');
@@ -16,4 +16,3 @@ function islandora_premis_update_7000(&$sandbox) {
   $islandora_premis_update_message = get_islandora_premis_update_message();
   return $islandora_premis_update_message("Islandora PREMIS database updates complete");
 }
-
