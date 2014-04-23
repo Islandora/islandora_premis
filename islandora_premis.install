@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * @file
+ * This file contains all install related hooks.
+ */
+
+/**
+ * Implements hook_update_N()
+ *
+ * Remove 'View PREMIS metadata' permission
+ */
+function islandora_premis_update_7000(&$sandbox) {
+  permissions_revoke_permissions('anonymous user', 'view premis metadata');
+  $t = get_t();
+  return $t("Islandora PREMIS database updates complete");
+}
