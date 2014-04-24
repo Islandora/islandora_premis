@@ -46,10 +46,6 @@ function islandora_premis_menu() {
  */
 function islandora_premis_permission() {
   return array(
-    'view premis metadata' => array(
-      'title' => t('View PREMIS metadata'),
-      'description' => t('View PREMIS metadata'),
-    ),
     'download premis metadata' => array(
       'title' => t('Download PREMIS metadata'),
       'description' => t('Download PREMIS metadata'),
@@ -89,5 +85,5 @@ function islandora_premis_xml_download($output) {
  */
 function islandora_premis_access_callback($object) {
   return is_object($object) && isset($object['DC']) && islandora_datastream_access(FEDORA_VIEW_OBJECTS, $object['DC'])
-    && !isset($object['COLLECTION_POLICY']) && user_access('view premis metadata');
+    && !isset($object['COLLECTION_POLICY']);
 }

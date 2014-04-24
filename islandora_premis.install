@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * This file contains all install related hooks.
+ */
+
+/**
+ * Remove 'View PREMIS metadata' permission.
+ */
+function islandora_premis_update_7005(&$sandbox) {
+  $roles = user_roles($membersonly = FALSE, $permission = 'view premis metadata');
+  foreach ($roles as $role) {
+    if (isset($role->rid) && !empty($role->rid)) {
+      user_role_revoke_permissions($role->rid, array('view premis metadata'));
+    }
+  }
+  $t = get_t();
+  return $t("Islandora PREMIS database updates complete");
+}
