@@ -15,6 +15,6 @@ function islandora_premis_update_7005(&$sandbox) {
       user_role_revoke_permissions($role->rid, array('view premis metadata'));
     }
   }
-  $islandora_premis_update_message = get_islandora_premis_update_message();
-  return $islandora_premis_update_message("Islandora PREMIS database updates complete");
+  $t = get_t();
+  return $t("Islandora PREMIS database updates complete");
 }
