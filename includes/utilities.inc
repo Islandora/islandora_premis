@@ -12,23 +12,34 @@
  *   An associative array of parameters, containing:
  *   - input: The input XML in a string.
  *   - xsl: The path to an XSLT file.
+ *   - functions: An optional value indicating PHP functions to make available
+ *     in the XSLT. Either a string indicating the name of the function, or an
+ *     array of multiple strings, each indicating the name of a function.
  *
  * @return string
  *   The transformed XML, as a string.
  */
 function islandora_premis_run_xsl_transform($info) {
+  $info += array(
+    'functions' => array(),
+  );
+
   $xsl = new DOMDocument();
   $xsl->load($info['xsl']);
   $input = new DOMDocument();
   $input->loadXML($info['input']);
   $processor = new XSLTProcessor();
   $processor->importStylesheet($xsl);
+  if ($info['functions']) {
+    $processor->registerPHPFunctions($info['functions']);
+  }
   // These parameters are used in foxml_to_premis.xsl.
   $processor->setParameter('', 'premis_agent_name_organization', variable_get('islandora_premis_agent_name', 'Your Organization'));
   $processor->setParameter('', 'premis_agent_identifier_organization', variable_get('islandora_premis_agent_identifier', 'some_unique_string'));
   $processor->setParameter('', 'premis_agent_identifier_type', variable_get('islandora_premis_agent_identifier_type', 'MARC Organization Codes'));
   $processor->setParameter('', 'premis_agent_type_organization', variable_get('islandora_premis_agent_type', 'organization'));
   $processor->setParameter('', 'fedora_commons_version', islandora_premis_get_fc_version());
+
   // @ suppresses warnings regarding unregistered prefixes.
   return @$processor->transformToXML($input);
 }
@@ -39,7 +50,7 @@ function islandora_premis_run_xsl_transform($info) {
  * @param AbstractObject $object
  *   A Fedora object containing a FOXML datastream.
  *
- * @return array|bool 
+ * @return array|bool
  *   An array containing the serialized FOXML and the path to the stylesheet,
  *   or FALSE if the FOXML is not retrievable.
  */
@@ -49,59 +60,12 @@ function islandora_premis_transform_foxml_to_premis(AbstractObject $object) {
     drupal_not_found();
   }
 
-  // Acrobatics to insert the FITS TECHMD datastream into the outgoing
-  // FOXML. We can't use the DOM to do this because PHP is not able to
-  // pass elements into an XSL stylesheet if they contains both double
-  // and single quotes (bug reference https://bugs.php.net/bug.php?id=64137).
-  // To get around this, we use XMLWriter to create an inline datastream
-  // (ID="FITS_OUTPUT_COPY") and insert that as serialized XML into the FOXML
-  // via XMLWriter's writeRaw() function so we can process it in
-  // foxml_to_premis.xsl.
-  if ($foxml_str) {
-    $dsid = variable_get('islandora_fits_techmd_dsid', 'TECHMD');
-    if (isset($object[$dsid])) {
-      $ds = new XMLWriter();
-      $ds->openMemory();
-      $ds->setIndent(TRUE);
-      $ds->startDocument();
-      $ds->startElementNS('foxml', 'datastream', 'info:fedora/fedora-system:def/foxml#');
-      $ds->writeAttribute('xmlns:xsi', "http://www.w3.org/2001/XMLSchema-instance");
-      // We don't use the DSID configured in the FITS module because we need to
-      // be able to predict it in the XMLT.
-      $ds->writeAttribute('ID', 'FITS_OUTPUT_COPY');
-      $ds->writeAttribute('STATE', 'A');
-      $ds->writeAttribute('CONTROL_GROUP', 'X');
-      $ds->writeAttribute('VERSIONABLE', 'false');
-      $ds->startElementNS('foxml', 'datastreamVersion', NULL);
-      $ds->writeAttribute('ID', 'FITS_OUTPUT_COPY.0');
-      $ds->writeAttribute('LABEL', 'Copy of FITS XML');
-      $ds->writeAttribute('MIMETYPE', 'text/xml');
-      $ds->startElementNS('foxml', 'xmlContent', NULL);
-      $fits_string = preg_replace('/^<\?xml\sversion="1\.0"\sencoding="UTF-8"\?>/',
-        '', $object[$dsid]->content);
-      $ds->writeRaw($fits_string);
-      // Closes foxml:xmlContent.
-      $ds->endElement();
-      // Closes foxml:datastreamVersion.
-      $ds->endElement();
-      // Closes foxml:datastream.
-      $ds->endElement();
-      $ds->endDocument();
-      $ds_string = $ds->outputMemory();
-      // Inline XML can't have an XML declaration.
-      $ds_string = preg_replace('/^<\?xml\sversion="1\.0"\?>/', '', $ds_string);
-      $foxml = new DOMDocument();
-      $foxml->loadXML($foxml_str);
-      $fragment = $foxml->createDocumentFragment();
-      $fragment->appendXML($ds_string);
-      $foxml->documentElement->appendChild($fragment);
-      $foxml_str = $foxml->saveXML();
-    }
-  }
-
   return islandora_premis_run_xsl_transform(array(
     'input' => $foxml_str,
     'xsl' => drupal_get_path('module', 'islandora_premis') . '/xml/foxml_to_premis.xsl',
+    'functions' => array(
+      'islandora_premis_get_object_characteristics_extension',
+    ),
   ));
 }
 
@@ -168,7 +132,7 @@ function islandora_premis_get_foxml(AbstractObject $object) {
         array("@message" => $e->getMessage())));
     watchdog_exception(
       'islandora_premis',
-       $e,
+      $e,
       'Error retrieving FOXML required to generate PREMIS: %type: !message in %function (line %line of %file).'
     );
   }
@@ -186,4 +150,29 @@ function islandora_premis_get_fc_version() {
   $tuque = islandora_get_tuque_connection();
   $repo_description = $tuque->repository->api->a->describeRepository();
   return $repo_description['repositoryVersion'];
+}
+
+/**
+ * Get XML for use as the OBJ's "object characteristics extension".
+ *
+ * @param string $pid
+ *   The ID of the object for which XML is to be grabbed.
+ * @param string $dsid
+ *   The ID of the datastream on the object for which XML is to be grabbed.
+ *
+ * @return DOMDocument|bool
+ *   A DOMDocument containing the XML, or FALSE if none is available.
+ */
+function islandora_premis_get_object_characteristics_extension($pid, $dsid) {
+  $object = islandora_object_load($pid);
+  if ($dsid == 'OBJ') {
+    $fits_dsid = variable_get('islandora_fits_techmd_dsid', 'TECHMD');
+    if (isset($object[$fits_dsid]) && islandora_datastream_access(ISLANDORA_VIEW_OBJECTS, $object[$fits_dsid])) {
+      $doc = new DOMDocument();
+      $doc->loadXML($object[$fits_dsid]->content);
+      return $doc;
+    }
+  }
+
+  return FALSE;
 }
