@@ -152,37 +152,28 @@ function islandora_premis_view(AbstractObject $object) {
  *   The FOXML, or FALSE if the FOXML is not available.
  */
 function islandora_premis_get_foxml(AbstractObject $object) {
-  $foxml = '';
+  $foxml = FALSE;
   // Use the Tuque API-M to export the FOXML for the object.
-  global $user;
-  $fedora_url = variable_get('islandora_base_url', 'http://localhost:8080/fedora');
   try {
-    $connection = islandora_get_tuque_connection($user, $fedora_url);
-    $foxml = $connection->api->m->export($object->id,
-      array(
-        'format' => 'info:fedora/fedora-system:FOXML-1.1',
-        'context' => 'migrate',
-        'encoding' => 'UTF-8')
-      );
+    $connection = islandora_get_tuque_connection();
+    $foxml = $connection->api->m->export($object->id, array(
+      'format' => 'info:fedora/fedora-system:FOXML-1.1',
+      'context' => 'migrate',
+      'encoding' => 'UTF-8',
+    ));
   }
-  catch (exception $e) {
+  catch (Exception $e) {
     drupal_set_message(t(
         "Error retrieving FOXML required to generate PREMIS: '@message'",
         array("@message" => $e->getMessage())));
-    watchdog(
+    watchdog_exception(
       'islandora_premis',
-      'Error retrieving FOXML required to generate PREMIS, with stack: @trace',
-      array('@trace' => $e->getTraceAsString()),
-      WATCHDOG_ERROR
+       $e,
+      'Error retrieving FOXML required to generate PREMIS: %type: !message in %function (line %line of %file).'
     );
   }
 
-  if ($foxml) {
-    return $foxml;
-  }
-  else {
-    return FALSE;
-  }
+  return $foxml;
 }
 
 /**
@@ -192,9 +183,7 @@ function islandora_premis_get_foxml(AbstractObject $object) {
  *   A string representing the Fedora Commons version
  */
 function islandora_premis_get_fc_version() {
-  $url = variable_get('islandora_base_url', 'http://localhost:8080/fedora') .
-    '/describe?xml=true';
-  $describe_xml = file_get_contents($url);
-  $fedora_repository = new SimpleXMLElement($describe_xml);
-  return $fedora_repository->repositoryVersion;
+  $tuque = islandora_get_tuque_connection();
+  $repo_description = $tuque->repository->api->a->describeRepository();
+  return $repo_description['repositoryVersion'];
 }
