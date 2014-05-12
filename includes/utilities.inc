@@ -15,6 +15,10 @@
  *   - functions: An optional value indicating PHP functions to make available
  *     in the XSLT. Either a string indicating the name of the function, or an
  *     array of multiple strings, each indicating the name of a function.
+ *   - parameters: An associative array of associative arrays. Keys of the
+ *     outer array indicate the namespace URI of the parameters to insert (for
+ *     no namespace, use the empty string). Inner keys indicate parameter names,
+ *     with values being the values for the give parameter.
  *
  * @return string
  *   The transformed XML, as a string.
@@ -22,6 +26,7 @@
 function islandora_premis_run_xsl_transform($info) {
   $info += array(
     'functions' => array(),
+    'parameters' => array(),
   );
 
   $xsl = new DOMDocument();
@@ -33,12 +38,9 @@ function islandora_premis_run_xsl_transform($info) {
   if ($info['functions']) {
     $processor->registerPHPFunctions($info['functions']);
   }
-  // These parameters are used in foxml_to_premis.xsl.
-  $processor->setParameter('', 'premis_agent_name_organization', variable_get('islandora_premis_agent_name', 'Your Organization'));
-  $processor->setParameter('', 'premis_agent_identifier_organization', variable_get('islandora_premis_agent_identifier', 'some_unique_string'));
-  $processor->setParameter('', 'premis_agent_identifier_type', variable_get('islandora_premis_agent_identifier_type', 'MARC Organization Codes'));
-  $processor->setParameter('', 'premis_agent_type_organization', variable_get('islandora_premis_agent_type', 'organization'));
-  $processor->setParameter('', 'fedora_commons_version', islandora_premis_get_fc_version());
+  foreach ($info['parameters'] as $ns => $parameters) {
+    $processor->setParameter($ns, $parameters);
+  }
 
   // @ suppresses warnings regarding unregistered prefixes.
   return @$processor->transformToXML($input);
@@ -65,6 +67,15 @@ function islandora_premis_transform_foxml_to_premis(AbstractObject $object) {
     'xsl' => drupal_get_path('module', 'islandora_premis') . '/xml/foxml_to_premis.xsl',
     'functions' => array(
       'islandora_premis_get_object_characteristics_extension',
+    ),
+    'parameters' => array(
+      '' => array(
+        'premis_agent_name_organization' => variable_get('islandora_premis_agent_name', 'Your Organization'),
+        'premis_agent_identifier_organization' => variable_get('islandora_premis_agent_identifier', 'some_unique_string'),
+        'premis_agent_identifier_type' => variable_get('islandora_premis_agent_identifier_type', 'MARC Organization Codes'),
+        'premis_agent_type_organization' => variable_get('islandora_premis_agent_type', 'organization'),
+        'fedora_commons_version' => islandora_premis_get_fc_version(),
+      ),
     ),
   ));
 }
