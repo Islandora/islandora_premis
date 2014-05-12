@@ -1,5 +1,18 @@
-<?xml version="1.0"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:foxml="info:fedora/fedora-system:def/foxml#" xmlns:audit="info:fedora/fedora-system:def/audit#" xmlns:fedora="info:fedora/fedora-system:def/relations-external#" xmlns:fedora-model="info:fedora/fedora-system:def/model#" xmlns:islandora="http://islandora.ca/ontology/relsext#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:fits="http://hul.harvard.edu/ois/xml/ns/fits/fits_output" version="1.0" exclude-result-prefixes="fedora fedora-model foxml audit islandora rdf">
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:foxml="info:fedora/fedora-system:def/foxml#"
+  xmlns:audit="info:fedora/fedora-system:def/audit#"
+  xmlns:fedora="info:fedora/fedora-system:def/relations-external#"
+  xmlns:fedora-model="info:fedora/fedora-system:def/model#"
+  xmlns:islandora="http://islandora.ca/ontology/relsext#"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"
+  xmlns:fits="http://hul.harvard.edu/ois/xml/ns/fits/fits_output"
+  xmlns:php="http://php.net/xsl"
+    exclude-result-prefixes="fedora fedora-model foxml audit islandora rdf php">
   <xsl:output method="xml" encoding="utf-8" indent="yes"/>
   <!-- Define a global parameter containing the Islandora object's PID. -->
   <xsl:param name="pid" select="foxml:digitalObject/@PID"/>
@@ -19,7 +32,7 @@
         check performed on it will not be linked to any fixity check events.</xsl:comment>
       <!-- Objects first. -->
       <xsl:comment>'Internal' eventIdentifierType values are comprised of Fedora datasteam ID plus ':' plus Fedora Audit Record ID.</xsl:comment>
-      <xsl:for-each select="foxml:datastream[not(@ID='FITS_OUTPUT_COPY')]">
+      <xsl:for-each select="foxml:datastream">
         <xsl:for-each select="foxml:datastreamVersion">
           <xsl:variable name="datastream_id" select="@ID"/>
           <object xsi:type="file">
@@ -51,13 +64,12 @@
                   </formatName>
                 </formatDesignation>
               </format>
-              <!-- We only want to output the FITS XML if we are dealing with the OBJ datastream. -->
-              <xsl:if test="../@ID='OBJ'">
-                <xsl:if test="/foxml:digitalObject/foxml:datastream[@ID='FITS_OUTPUT_COPY']">
-                  <objectCharacteristicsExtension>
-                    <xsl:copy-of select="/foxml:digitalObject/foxml:datastream[@ID='FITS_OUTPUT_COPY']/foxml:datastreamVersion[@ID='FITS_OUTPUT_COPY.0']/foxml:xmlContent/fits:fits"/>
-                  </objectCharacteristicsExtension>
-                </xsl:if>
+              <!-- Call back to PHP for the content (may be none). -->
+              <xsl:variable name="object-characteristics-extension" select="php:function('islandora_premis_get_object_characteristics_extension', string($pid), string(../@ID))"/>
+              <xsl:if test="$object-characteristics-extension">
+                <objectCharacteristicsExtension>
+                  <xsl:copy-of select="$object-characteristics-extension/fits:fits"/>
+                </objectCharacteristicsExtension>
               </xsl:if>
             </objectCharacteristics>
             <storage>
@@ -90,7 +102,7 @@
       </xsl:for-each>
       <!-- Then their events. -->
       <xsl:comment>'Internal' eventIdentifierType values are comprised of Fedora datasteam ID plus ':' plus Fedora Audit Record ID.</xsl:comment>
-      <xsl:for-each select="foxml:datastream[not(@ID='FITS_OUTPUT_COPY')]">
+      <xsl:for-each select="foxml:datastream">
         <xsl:for-each select="foxml:datastreamVersion">
           <xsl:variable name="event_content_location" select="foxml:contentLocation/@REF"/>
           <xsl:variable name="datastream_id" select="@ID"/>
