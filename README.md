@@ -24,11 +24,11 @@ Install as usual, see [this](https://drupal.org/documentation/install/modules-th
 
 ## Configuration
 
-Set your institution's 'agent' settings Administration » Islandora » PREMIS.
+Set your institution's 'agent' settings Administration » Islandora » Islandora Utility Modules » PREMIS (admin/islandora/tools/premis).
 
-[![Configuration](http://i.imgur.com/SSGa5PF.png)](http://i.imgur.com/SSGa5PF.png)
+![Configuration](https://camo.githubusercontent.com/0db86df2c2cde6c0054aa65b604064b714f683e7/687474703a2f2f692e696d6775722e636f6d2f535347613550462e706e67)
 
-Set your permissions for 'View PREMIS metadata' and 'Download PREMIS metadata' at Administration » People » Permissions.
+Set your permissions for 'View PREMIS metadata' and 'Download PREMIS metadata' at Administration » People » Permissions (admin/people/permissions).
 
 ## FAQ
 

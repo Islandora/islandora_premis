@@ -29,7 +29,7 @@ function islandora_premis_menu() {
       'delivery callback' => 'islandora_premis_xml_download',
       'file' => 'includes/utilities.inc',
     ),
-    'admin/islandora/premis' => array(
+    'admin/islandora/tools/premis' => array(
       'title' => 'PREMIS',
       'description' => 'Configure Islandora PREMIS.',
       'page callback' => 'drupal_get_form',
