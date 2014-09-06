@@ -6,9 +6,9 @@
  */
 
 /**
-*  * Implements hook_uninstall().
-*   */
-function islandora_premis_uninstall () {
+ * Implements hook_uninstall().
+ */
+function islandora_premis_uninstall() {
   $variables = array(
     'islandora_premis_agent_name',
     'islandora_premis_agent_identifier',
