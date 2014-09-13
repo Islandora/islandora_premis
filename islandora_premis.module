@@ -10,7 +10,7 @@
  */
 function islandora_premis_menu() {
   return array(
-    'islandora/object/%islandora_object/view_premis' => array(
+    'islandora/object/%islandora_object/manage/premis' => array(
       'title' => 'PREMIS',
       'type' => MENU_LOCAL_TASK,
       'page callback' => 'islandora_premis_view',
@@ -19,7 +19,7 @@ function islandora_premis_menu() {
       'access arguments' => array(2),
       'file' => 'includes/utilities.inc',
     ),
-    'islandora/object/%islandora_object/download_premis' => array(
+    'islandora/object/%islandora_object/manage/premis/download' => array(
       'title' => 'Download PREMIS',
       'type' => MENU_CALLBACK,
       'page callback' => 'islandora_premis_transform_foxml_to_premis',
