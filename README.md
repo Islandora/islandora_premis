@@ -32,6 +32,10 @@ Set your permissions for 'View PREMIS metadata' and 'Download PREMIS metadata' a
 
 ## FAQ
 
+## Documentation
+
+Further documentation for this module is available at [our wiki](https://wiki.duraspace.org/display/ISLANDORA/Islandora+PREMIS).
+
 ## Troubleshooting
 
 Having problems/Solved a problem? Check out the Islandora google groups for a solution.
@@ -44,6 +48,10 @@ Having problems/Solved a problem? Check out the Islandora google groups for a so
 [Nick Ruest](https://github.com/ruebot)
 [Mark Jordan](https://github.com/mjordan)
 [Donald Moses](https://github.com/dmoses)
+
+## Development
+
+If you would like to contribute to this module, please check out [CONTRIBUTING.md](CONTRIBUTING.md). In addition, we have helpful [Documentation for Developers](https://github.com/Islandora/islandora/wiki#wiki-documentation-for-developers) info, as well as our [Developers](http://islandora.ca/developers) section on the [Islandora.ca](http://islandora.ca) site.
 
 ## License
 
