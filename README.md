@@ -30,8 +30,6 @@ Set your institution's 'agent' settings Administration » Islandora » Islandora
 
 Set your permissions for 'View PREMIS metadata' and 'Download PREMIS metadata' at Administration » People » Permissions (admin/people/permissions).
 
-## FAQ
-
 ## Documentation
 
 Further documentation for this module is available at [our wiki](https://wiki.duraspace.org/display/ISLANDORA/Islandora+PREMIS).
@@ -43,11 +41,13 @@ Having problems/Solved a problem? Check out the Islandora google groups for a so
 * [Islandora Group](https://groups.google.com/forum/?hl=en&fromgroups#!forum/islandora)
 * [Islandora Dev Group](https://groups.google.com/forum/?hl=en&fromgroups#!forum/islandora-dev)
 
+## FAQ
+
 ## Maintainers
 
-[Nick Ruest](https://github.com/ruebot)
-[Mark Jordan](https://github.com/mjordan)
-[Donald Moses](https://github.com/dmoses)
+* [Nick Ruest](https://github.com/ruebot)
+* [Mark Jordan](https://github.com/mjordan)
+* [Donald Moses](https://github.com/dmoses)
 
 ## Development
 
