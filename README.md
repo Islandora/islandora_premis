@@ -46,7 +46,6 @@ Having problems/Solved a problem? Check out the Islandora google groups for a so
 ## Maintainers
 
 * [Mark Jordan](https://github.com/mjordan)
-* [Donald Moses](https://github.com/dmoses)
 
 ## Development
 
