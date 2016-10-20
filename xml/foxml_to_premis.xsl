@@ -26,15 +26,23 @@
   <xsl:preserve-space elements="*"/>
   <xsl:template match="foxml:digitalObject">
     <premis xmlns="info:lc/xmlns/premis-v2" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis.xsd" version="2.2">
-      <xsl:comment>PREMIS data for Islandora object <xsl:value-of select="$pid"/>. Contains object entries for each datastream
-        in an Islandora object, and event entries documenting all fixity checks performed on
-        versions of those datastreams. Note that a datastream version that has never had a fixity
-        check performed on it will not be linked to any fixity check events.</xsl:comment>
+      <xsl:comment>PREMIS data for Islandora object <xsl:value-of select="$pid"/>. Contains PREMIS object entries for each
+        datastream in an Islandora object, and event entries documenting all fixity checks
+        performed on versions of those datastreams by the Islandora Checksum Checker module.
+        Note that a datastream version that has never had a fixity check performed on it will
+        not be linked to any fixity check events.</xsl:comment>
+      <xsl:comment>Some things to note:</xsl:comment>
+      <xsl:comment>'Internal' eventIdentifierType values in this PREMIS document are comprised of Fedora
+        datasteam ID plus ':' plus Fedora Audit Record ID.</xsl:comment>
+      <xsl:comment>Datastreams in the Inline XML control group (X) (e.g., DC and RELS-EXT) do not have a contentLocation
+        element in the FOXML, so they do not have a corresponding contentLocationValue element in PREMIS.</xsl:comment>
+      <xsl:comment>The eventOutcome element is "coded" (as recommended in the PREMIS Data Dictionary) by the
+        Islandora Checksum Checker module in this PREMIS document as follows: "[checksum type] checksum validated.",
+        "Invalid [checksum type] detected.", or "Checksums not enabled."</xsl:comment>
       <!-- Objects first. -->
-      <xsl:comment>'Internal' eventIdentifierType values are comprised of Fedora datasteam ID plus ':' plus Fedora Audit Record ID.</xsl:comment>
       <xsl:for-each select="foxml:datastream">
+        <xsl:variable name="datastream_id" select="@ID"/>
         <xsl:for-each select="foxml:datastreamVersion">
-          <xsl:variable name="datastream_id" select="@ID"/>
           <object xsi:type="file">
             <objectIdentifier>
               <objectIdentifierType>Fedora Commons datastreamVersion ID</objectIdentifierType>
@@ -64,7 +72,7 @@
                   </formatName>
                 </formatDesignation>
               </format>
-              <!-- Call back to PHP for the content (may be none). -->
+              <!-- Call back to PHP for the objectCharacteristicsExtension content (may be none). -->
               <xsl:variable name="object-characteristics-extension" select="php:function('islandora_premis_get_object_characteristics_extension', string($pid), string(../@ID))"/>
               <xsl:if test="$object-characteristics-extension">
                 <objectCharacteristicsExtension>
@@ -82,12 +90,14 @@
             </storage>
             <!-- There should only be one audit:auditTrail but this for-each loop accounts for multiple. -->
             <xsl:for-each select="/foxml:digitalObject/foxml:datastream[@ID='AUDIT']/foxml:datastreamVersion/foxml:xmlContent/audit:auditTrail">
+              <xsl:variable name="datastream_version_id" select="foxml:datastreamVersion/@ID"/>
+              <xsl:variable name="event_content_location" select="concat($pid, '+', $datastream_id, '+', $datastream_version_id)"/>
               <xsl:for-each select="audit:record">
                 <!-- We're only interested in audit:records that document a PREMIS fixityEvent. -->
-                <xsl:if test="contains(audit:justification, concat('PREMIS:file=', foxml:contentLocation/@REF))">
+                <xsl:variable name="justification" select="audit:justification"/>
+                <xsl:if test="contains($justification, concat('PREMIS:file=', foxml:contentLocation/@REF))">
                   <xsl:variable name="responsibility" select="audit:responsibility"/>
                   <xsl:variable name="date" select="audit:date"/>
-                  <xsl:variable name="justification" select="audit:justification"/>
                   <linkingEventIdentifier>
                     <linkingEventIdentifierType>Internal</linkingEventIdentifierType>
                     <linkingEventIdentifierValue>
@@ -101,19 +111,19 @@
         </xsl:for-each>
       </xsl:for-each>
       <!-- Then their events. -->
-      <xsl:comment>'Internal' eventIdentifierType values are comprised of Fedora datasteam ID plus ':' plus Fedora Audit Record ID.</xsl:comment>
       <xsl:for-each select="foxml:datastream">
+        <xsl:variable name="datastream_id" select="@ID"/>
         <xsl:for-each select="foxml:datastreamVersion">
-          <xsl:variable name="event_content_location" select="foxml:contentLocation/@REF"/>
-          <xsl:variable name="datastream_id" select="@ID"/>
+          <xsl:variable name="datastream_version_id" select="@ID"/>
+          <xsl:variable name="event_content_location" select="concat($pid, '+', $datastream_id, '+', $datastream_version_id)"/>
           <!-- There should only be one audit:auditTrail but this for-each loop accounts for multiple. -->
           <xsl:for-each select="/foxml:digitalObject/foxml:datastream[@ID='AUDIT']/foxml:datastreamVersion/foxml:xmlContent/audit:auditTrail">
             <xsl:for-each select="audit:record">
               <!-- We're only interested in audit:records that document a PREMIS fixityEvent. -->
-              <xsl:if test="contains(audit:justification, concat('PREMIS:file=', $event_content_location))">
+              <xsl:variable name="justification" select="audit:justification"/>
+              <xsl:if test="contains($justification, concat('PREMIS:file=', $event_content_location))">
                 <xsl:variable name="responsibility" select="audit:responsibility"/>
                 <xsl:variable name="date" select="audit:date"/>
-                <xsl:variable name="justification" select="audit:justification"/>
                 <event>
                   <eventIdentifier>
                     <eventIdentifierType>Internal</eventIdentifierType>
@@ -127,7 +137,6 @@
                   </eventDateTime>
                   <eventOutcomeInformation>
                     <eventOutcome>
-                      <!-- eventOutcome should be coded, not free text. -->
                       <xsl:value-of select="substring-after(audit:justification, 'PREMIS:eventOutcome=')"/>
                     </eventOutcome>
                   </eventOutcomeInformation>
