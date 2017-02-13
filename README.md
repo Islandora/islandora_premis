@@ -45,7 +45,7 @@ Having problems/Solved a problem? Check out the Islandora google groups for a so
 
 ## Maintainers
 
-* Daniel Aitken
+* [Daniel Aitken](https://github.com/qadan)
 
 ## Development
 
