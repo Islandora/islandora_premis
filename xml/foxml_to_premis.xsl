@@ -34,6 +34,8 @@
       <xsl:comment>Some things to note:</xsl:comment>
       <xsl:comment>'Internal' eventIdentifierType values in this PREMIS document are comprised of Fedora
         datasteam ID plus ':' plus Fedora Audit Record ID.</xsl:comment>
+      <xsl:comment>This PREMIS document does not contain any linkingEventIdentifier elements. eventIdentifierValue
+        values can be linked to objects using the naming convention described in the previous comment.</xsl:comment>
       <xsl:comment>Datastreams in the Inline XML control group (X) (e.g., DC and RELS-EXT) do not have a contentLocation
         element in the FOXML, so they do not have a corresponding contentLocationValue element in PREMIS.</xsl:comment>
       <xsl:comment>The eventOutcome element is "coded" (as recommended in the PREMIS Data Dictionary) by the
@@ -88,25 +90,6 @@
                 </contentLocationValue>
               </contentLocation>
             </storage>
-            <!-- There should only be one audit:auditTrail but this for-each loop accounts for multiple. -->
-            <xsl:for-each select="/foxml:digitalObject/foxml:datastream[@ID='AUDIT']/foxml:datastreamVersion/foxml:xmlContent/audit:auditTrail">
-              <xsl:variable name="datastream_version_id" select="foxml:datastreamVersion/@ID"/>
-              <xsl:variable name="event_content_location" select="concat($pid, '+', $datastream_id, '+', $datastream_version_id)"/>
-              <xsl:for-each select="audit:record">
-                <!-- We're only interested in audit:records that document a PREMIS fixityEvent. -->
-                <xsl:variable name="justification" select="audit:justification"/>
-                <xsl:if test="contains($justification, concat('PREMIS:file=', foxml:contentLocation/@REF))">
-                  <xsl:variable name="responsibility" select="audit:responsibility"/>
-                  <xsl:variable name="date" select="audit:date"/>
-                  <linkingEventIdentifier>
-                    <linkingEventIdentifierType>Internal</linkingEventIdentifierType>
-                    <linkingEventIdentifierValue>
-                      <xsl:value-of select="concat($datastream_id, ':', @ID)"/>
-                    </linkingEventIdentifierValue>
-                  </linkingEventIdentifier>
-                </xsl:if>
-              </xsl:for-each>
-            </xsl:for-each>
           </object>
         </xsl:for-each>
       </xsl:for-each>
