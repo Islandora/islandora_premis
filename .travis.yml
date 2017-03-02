@@ -34,4 +34,3 @@ script:
   - $ISLANDORA_DIR/tests/scripts/line_endings.sh sites/all/modules/islandora_premis
   - drush coder-review --reviews=production,security,style,i18n,potx,sniffer islandora_premis
   - phpcpd --names *.module,*.inc,*.test sites/all/modules/islandora_premis
-  - drush test-run --uri=http://localhost:8081 "Islandora PREMIS"
