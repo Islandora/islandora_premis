@@ -139,6 +139,22 @@
     </tr>
     <tr class="even">
       <td class="islandora_premis_table_labels">
+        <xsl:value-of select="name(premis:objectCharacteristics/premis:creatingApplication/premis:creatingApplicationName)"/>
+      </td>
+      <td class="islandora_premis_table_values">
+        <xsl:value-of select="premis:objectCharacteristics/premis:creatingApplication/premis:creatingApplicationName"/>
+      </td>
+    </tr>
+    <tr class="odd">
+      <td class="islandora_premis_table_labels">
+        <xsl:value-of select="name(premis:objectCharacteristics/premis:creatingApplication/premis:dateCreatedByApplication)"/>
+      </td>
+      <td class="islandora_premis_table_values">
+        <xsl:value-of select="premis:objectCharacteristics/premis:creatingApplication/premis:dateCreatedByApplication"/>
+      </td>
+    </tr>
+    <tr class="even">
+      <td class="islandora_premis_table_labels">
         <xsl:value-of select="name(premis:objectCharacteristics/premis:fixity/premis:messageDigestAlgorithm)"/>
       </td>
       <td class="islandora_premis_table_values">

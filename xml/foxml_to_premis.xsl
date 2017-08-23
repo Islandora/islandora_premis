@@ -21,6 +21,7 @@
   <xsl:param name="premis_agent_identifier_organization"/>
   <xsl:param name="premis_agent_identifier_type"/>
   <xsl:param name="premis_agent_type_organization"/>
+  <xsl:param name="premis_object_creating_application_name"/>
   <!-- Note: the version number is current at time of deriving PREMIS, not at time of creation of audit log entry. -->
   <xsl:param name="fedora_commons_version"/>
   <xsl:preserve-space elements="*"/>
@@ -38,6 +39,9 @@
         values can be linked to objects using the naming convention described in the previous comment.</xsl:comment>
       <xsl:comment>Datastreams in the Inline XML control group (X) (e.g., DC and RELS-EXT) do not have a contentLocation
         element in the FOXML, so they do not have a corresponding contentLocationValue element in PREMIS.</xsl:comment>
+      <xsl:comment>creatingApplicationName will be 'Islandora'. See https://jira.duraspace.org/browse/ISLANDORA-2016 for
+        more info. dateCreatedByApplication uses the Fedora datastream version CREATED value. These properties
+        are applied to all datastreams, even OBJ, and all datastream versions.</xsl:comment>
       <xsl:comment>The eventOutcome element is "coded" (as recommended in the PREMIS Data Dictionary) by the
         Islandora Checksum Checker module in this PREMIS document as follows: "[checksum type] checksum validated.",
         "Invalid [checksum type] detected.", or "Checksums not enabled."</xsl:comment>
@@ -54,6 +58,14 @@
             </objectIdentifier>
             <objectCharacteristics>
               <compositionLevel>0</compositionLevel>
+              <creatingApplication>
+                <creatingApplicationName>
+                  <xsl:value-of select="$premis_object_creating_application_name"/>
+                </creatingApplicationName>
+                <dateCreatedByApplication> 
+                  <xsl:value-of select="@CREATED"/>
+                </dateCreatedByApplication> 
+              </creatingApplication>
               <fixity>
                 <messageDigestAlgorithm>
                   <xsl:value-of select="foxml:contentDigest/@TYPE"/>
