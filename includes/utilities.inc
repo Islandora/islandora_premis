@@ -62,6 +62,9 @@ function islandora_premis_transform_foxml_to_premis(AbstractObject $object) {
     drupal_not_found();
   }
 
+  // See https://jira.duraspace.org/browse/ISLANDORA-2016.
+  $creating_application_info = system_get_info('module', 'islandora');
+
   return islandora_premis_run_xsl_transform(array(
     'input' => $foxml_str,
     'xsl' => drupal_get_path('module', 'islandora_premis') . '/xml/foxml_to_premis.xsl',
@@ -74,6 +77,7 @@ function islandora_premis_transform_foxml_to_premis(AbstractObject $object) {
         'premis_agent_identifier_organization' => variable_get('islandora_premis_agent_identifier', 'some_unique_string'),
         'premis_agent_identifier_type' => variable_get('islandora_premis_agent_identifier_type', 'MARC Organization Codes'),
         'premis_agent_type_organization' => variable_get('islandora_premis_agent_type', 'organization'),
+        'premis_object_creating_application_name' => $creating_application_info['name'],
         'fedora_commons_version' => islandora_premis_get_fc_version(),
       ),
     ),
