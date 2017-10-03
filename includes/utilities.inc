@@ -112,10 +112,10 @@ function islandora_premis_transform_premis_to_html(AbstractObject $object) {
  */
 function islandora_premis_view(AbstractObject $object) {
   $tab = array();
-  if (user_access('download premis metadata')) {
+  if (islandora_object_access('download premis metadata', $object)) {
     $tab['link'] = array('#markup' => l(t('Download PREMIS'), "islandora/object/{$object->id}/manage/premis/download"));
   }
-  if (user_access('view premis metadata')) {
+  if (islandora_object_access('view premis metadata', $object)) {
     $tab['premis'] = array('#markup' => islandora_premis_transform_premis_to_html($object));
   }
   return $tab;
