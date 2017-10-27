@@ -81,11 +81,18 @@ function islandora_premis_xml_download($output) {
  *   The content to download.
  */
 function _islandora_premis_xml_download($output) {
-  drupal_add_http_header('Content-type', 'text/xml;charset=utf8');
-  drupal_add_http_header('Content-length', strlen($output));
-  drupal_add_http_header('Content-Disposition', 'attachment; filename="premis.xml"');
-  print $output;
-  drupal_page_footer();
+  $object = menu_get_object('islandora_object', 2);
+  if (islandora_object_access('download premis metadata', $object)) {
+    drupal_add_http_header('Content-type', 'text/xml;charset=utf8');
+    drupal_add_http_header('Content-length', strlen($output));
+    drupal_add_http_header('Content-Disposition', 'attachment; filename="premis.xml"');
+    print $output;
+    drupal_page_footer();
+  }
+  else {
+    watchdog('access denied', '!q', array('!q' => check_plain($_GET['q'])), WATCHDOG_WARNING);
+    drupal_add_http_header('Status', '403 Forbidden');
+  }
 }
 
 /**
