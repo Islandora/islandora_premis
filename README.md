@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This module produces XML and HTML representations of [PREMIS](http://www.loc.gov/standards/premis/) metadata for objects in your repository. Currently, it documents all fixity checks performed on datastreams, includes 'agent' entries for your insitution and for the Fedora Commons software and, maps contents of each object's "rights" elements in DC datastreams to equivalent PREMIS "rightsExtension" elements.
+This module produces XML and HTML representations of [PREMIS](https://www.loc.gov/standards/premis/) metadata for objects in your repository. Currently, it documents all fixity checks performed on datastreams, includes 'agent' entries for your insitution and for the Fedora Commons software and, maps contents of each object's "rights" elements in DC datastreams to equivalent PREMIS "rightsExtension" elements.
 
 PREMIS XML describing all the datastreams in an object [looks like this](https://gist.github.com/mjordan/8256978).
 
